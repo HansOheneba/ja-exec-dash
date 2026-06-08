@@ -174,7 +174,7 @@ function DesignSystemPreview() {
 
         <SectionBlock
           title="DashCards"
-          description="Primary dashboard cards — tight grid, responsive stretch, span variants."
+          description="Primary dashboard cards: tight grid, responsive stretch, span variants."
         >
           <DashboardGrid>
             <DashCard>
@@ -202,7 +202,7 @@ function DesignSystemPreview() {
             <DashCard span="wide">
               <DashCardHeader>
                 <div>
-                  <DashCardTitle>Wide card — span=&quot;wide&quot;</DashCardTitle>
+                  <DashCardTitle>Wide card (span=&quot;wide&quot;)</DashCardTitle>
                   <DashCardDescription>Spans two grid columns</DashCardDescription>
                 </div>
               </DashCardHeader>
@@ -221,7 +221,7 @@ function DesignSystemPreview() {
             <DashCard span="full">
               <DashCardHeader>
                 <div>
-                  <DashCardTitle>Full-width card — span=&quot;full&quot;</DashCardTitle>
+                  <DashCardTitle>Full-width card (span=&quot;full&quot;)</DashCardTitle>
                   <DashCardDescription>
                     Spans the entire grid row
                   </DashCardDescription>
@@ -275,18 +275,18 @@ function DesignSystemPreview() {
           <Card>
             <CardContent className="flex flex-col gap-6 pt-6">
               <div>
-                <Overline>H1 — Playfair Display</Overline>
+                <Overline>H1: Playfair Display</Overline>
                 <H1>Wealth Summary</H1>
               </div>
               <div>
-                <Overline>Display / H2–H4 — Manrope</Overline>
+                <Overline>Display / H2-H4: Manrope</Overline>
                 <Display className="mb-2">Portfolio Overview</Display>
                 <H2 className="mb-1">Recent Activity</H2>
                 <H3 className="mb-1">Asset Allocation</H3>
                 <H4>Holdings by Sector</H4>
               </div>
               <div>
-                <Overline>Body — Plus Jakarta Sans</Overline>
+                <Overline>Body: Plus Jakarta Sans</Overline>
                 <Text>Paragraphs, labels, and UI copy.</Text>
                 <Lead>Lead paragraph for page intros.</Lead>
                 <TextSmall>Small secondary text.</TextSmall>
@@ -294,7 +294,7 @@ function DesignSystemPreview() {
                 <Muted>Muted helper text</Muted>
               </div>
               <div>
-                <Overline>Numeric — Manrope (metrics &amp; inputs)</Overline>
+                <Overline>Numeric: Manrope (metrics &amp; inputs)</Overline>
                 <Numeric>£3,318,930.86</Numeric>
               </div>
             </CardContent>

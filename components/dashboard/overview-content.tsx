@@ -80,7 +80,7 @@ function OverviewContent() {
                 <div className="h-full w-3/5 rounded-full bg-brand-accent" />
               </div>
               <TextSmall className="text-muted-foreground">
-                60% complete — next step with your advisor
+                60% complete. Next step with your advisor.
               </TextSmall>
             </DashCardContent>
           </DashCard>
@@ -152,7 +152,7 @@ function OverviewContent() {
                   date: "3 days ago",
                 },
                 {
-                  title: "New document uploaded — Trust deed amendment",
+                  title: "New document uploaded: Trust deed amendment",
                   date: "1 week ago",
                 },
                 {

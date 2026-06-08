@@ -1,0 +1,31 @@
+---
+description: Never use em dashes in this project. Non-negotiable.
+alwaysApply: true
+---
+
+# No em dashes
+
+Do not use em dashes (`—`, Unicode U+2014) anywhere in this project.
+
+This applies to all user-facing copy, code comments, commit messages, docs, metadata, and UI strings.
+
+## Use instead
+
+- A comma or period for breaks in a sentence
+- A colon to introduce a label or explanation
+- A hyphen `-` only when joining words (e.g. `full-width`)
+- Parentheses for short asides
+
+## Examples
+
+```tsx
+// Bad
+<Text>60% complete — next step with your advisor</Text>
+<title>JA Group — Client Dashboard</title>
+
+// Good
+<Text>60% complete. Next step with your advisor.</Text>
+<title>JA Group | Client Dashboard</title>
+```
+
+Before finishing any task, search the changed files for `—` and remove every occurrence.
