@@ -49,6 +49,8 @@
   /* Fonts */
   --font-sans: var(--font-sans);
   --font-heading: var(--font-heading);
+  --font-subheading: var(--font-manrope);
+  --font-numeric: var(--font-manrope);
 
   /* Typography scale */
   --text-display: 3rem;
@@ -94,7 +96,14 @@
   /* Layout */
   --spacing-page-x: 1.5rem;
   --spacing-section: 2rem;
-  --container-dashboard: 80rem;
+  --spacing-grid: 0.75rem;
+  --card-min-width: 17.5rem;
+  --radius-card: 1.25rem;
+
+  /* Dashboard surfaces */
+  --color-dashboard-surface: var(--dashboard-surface);
+  --color-dashboard-surface-mid: var(--dashboard-surface-mid);
+  --color-dashboard-surface-end: var(--dashboard-surface-end);
 
   /* Radius */
   --radius-sm: calc(var(--radius) * 0.6);
@@ -110,29 +119,32 @@
   --radius: 0.5rem;
 
   /* Surfaces */
-  --background: #ffffff;
+  --background: #f6f7f9;
   --foreground: #1c1919;
   --card: #ffffff;
   --card-foreground: #1c1919;
+  --dashboard-surface: #f8f8f7;
+  --dashboard-surface-mid: #f4f5f7;
+  --dashboard-surface-end: #f0f2f6;
   --popover: #ffffff;
   --popover-foreground: #1c1919;
-  --muted: #f4f5f7;
+  --muted: #f1f3f5;
   --muted-foreground: #484848;
 
   /* Brand actions */
   --primary: #202356;
   --primary-foreground: #ffffff;
-  --secondary: #f0f1f4;
+  --secondary: #eceef2;
   --secondary-foreground: #202356;
 
   /* Interactive hovers */
-  --accent: #f0ebe3;
+  --accent: #e9ebf0;
   --accent-foreground: #202356;
 
   /* Feedback */
   --destructive: #c45c57;
-  --border: #e2e4ea;
-  --input: #e2e4ea;
+  --border: #e3e6eb;
+  --input: #e3e6eb;
   --ring: #b2936b;
 
   /* Sidebar (navy shell) */
@@ -170,9 +182,71 @@
     @apply bg-background text-foreground font-sans;
   }
 
-  h1,
-  h2,
-  h3 {
+  h1 {
     @apply font-heading;
+  }
+
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-subheading;
+  }
+
+  input[type="number"] {
+    font-family: var(--font-numeric);
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+@layer utilities {
+  .bg-dashboard-gradient {
+    background: linear-gradient(
+      165deg,
+      var(--dashboard-surface) 0%,
+      var(--dashboard-surface-mid) 45%,
+      var(--dashboard-surface-end) 100%
+    );
+  }
+
+  .font-numeric {
+    font-family: var(--font-numeric);
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+@layer components {
+  [data-collapsible="icon"] [data-sidebar="sidebar"] {
+    @apply items-center;
+  }
+
+  [data-collapsible="icon"] [data-sidebar="header"],
+  [data-collapsible="icon"] [data-sidebar="footer"] {
+    @apply w-full items-center px-3;
+  }
+
+  [data-collapsible="icon"] [data-sidebar="content"] {
+    @apply flex w-full flex-1 flex-col justify-center px-2;
+  }
+
+  [data-collapsible="icon"] [data-sidebar="group"] {
+    @apply w-full items-center p-0;
+  }
+
+  [data-collapsible="icon"] [data-sidebar="menu"] {
+    @apply w-full items-center gap-3;
+  }
+
+  [data-collapsible="icon"] [data-sidebar="menu-item"] {
+    @apply flex w-full justify-center;
+  }
+
+  [data-collapsible="icon"] [data-sidebar="menu-button"] {
+    @apply mx-auto justify-center;
+  }
+
+  [data-collapsible="icon"] [data-sidebar="menu-button"] > span {
+    @apply hidden;
   }
 }

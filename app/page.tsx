@@ -1,5 +1,5 @@
-import { DesignSystemPreview } from "@/components/design-system-preview";
+import { OverviewContent } from "@/components/dashboard/overview-content";
 
 export default function Home() {
-  return <DesignSystemPreview />;
+  return <OverviewContent />;
 }

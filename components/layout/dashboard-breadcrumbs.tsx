@@ -1,0 +1,48 @@
+"use client";
+
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { ChevronRight } from "lucide-react";
+
+import { getBreadcrumbs } from "@/lib/breadcrumbs";
+import { cn } from "@/lib/utils";
+
+function DashboardBreadcrumbs({ className }: { className?: string }) {
+  const pathname = usePathname();
+  const crumbs = getBreadcrumbs(pathname);
+
+  return (
+    <nav aria-label="Breadcrumb" className={cn("min-w-0", className)}>
+      <ol className="flex min-w-0 items-center gap-1.5 text-body-sm">
+        {crumbs.map((crumb, index) => {
+          const isLast = index === crumbs.length - 1;
+
+          return (
+            <li key={crumb.href} className="flex min-w-0 items-center gap-1.5">
+              {index > 0 ? (
+                <ChevronRight
+                  className="size-3.5 shrink-0 text-muted-foreground"
+                  aria-hidden
+                />
+              ) : null}
+              {isLast ? (
+                <span className="truncate font-medium text-foreground">
+                  {crumb.label}
+                </span>
+              ) : (
+                <Link
+                  href={crumb.href}
+                  className="truncate text-muted-foreground transition-colors hover:text-foreground"
+                >
+                  {crumb.label}
+                </Link>
+              )}
+            </li>
+          );
+        })}
+      </ol>
+    </nav>
+  );
+}
+
+export { DashboardBreadcrumbs };

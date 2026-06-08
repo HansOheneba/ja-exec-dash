@@ -2,15 +2,15 @@ import { cva, type VariantProps } from "class-variance-authority";
 
 import { cn } from "@/lib/utils";
 
-const displayVariants = cva("font-heading tracking-tight text-display");
+const displayVariants = cva("font-subheading tracking-tight text-display");
 
 const h1Variants = cva("font-heading tracking-tight text-h1");
 
-const h2Variants = cva("font-heading tracking-tight text-h2");
+const h2Variants = cva("font-subheading tracking-tight text-h2");
 
-const h3Variants = cva("font-heading tracking-tight text-h3");
+const h3Variants = cva("font-subheading tracking-tight text-h3");
 
-const h4Variants = cva("font-sans tracking-tight text-h4");
+const h4Variants = cva("font-subheading tracking-tight text-h4");
 
 const textVariants = cva("font-sans text-body", {
   variants: {
@@ -34,13 +34,12 @@ const overlineVariants = cva(
   "font-sans text-overline uppercase tracking-wide text-muted-foreground"
 );
 
-function Display({
-  className,
-  ...props
-}: React.ComponentProps<"h1">) {
-  return (
-    <h1 className={cn(displayVariants(), className)} {...props} />
-  );
+const numericVariants = cva(
+  "font-numeric text-3xl font-semibold tracking-tight text-foreground"
+);
+
+function Display({ className, ...props }: React.ComponentProps<"h1">) {
+  return <h1 className={cn(displayVariants(), className)} {...props} />;
 }
 
 function H1({ className, ...props }: React.ComponentProps<"h1">) {
@@ -78,15 +77,11 @@ function TextSmall({ className, ...props }: React.ComponentProps<"p">) {
 }
 
 function Caption({ className, ...props }: React.ComponentProps<"span">) {
-  return (
-    <span className={cn(captionVariants(), className)} {...props} />
-  );
+  return <span className={cn(captionVariants(), className)} {...props} />;
 }
 
 function Overline({ className, ...props }: React.ComponentProps<"span">) {
-  return (
-    <span className={cn(overlineVariants(), className)} {...props} />
-  );
+  return <span className={cn(overlineVariants(), className)} {...props} />;
 }
 
 function Muted({ className, ...props }: React.ComponentProps<"p">) {
@@ -95,6 +90,12 @@ function Muted({ className, ...props }: React.ComponentProps<"p">) {
       className={cn(textVariants({ variant: "muted" }), className)}
       {...props}
     />
+  );
+}
+
+function Numeric({ className, ...props }: React.ComponentProps<"span">) {
+  return (
+    <span className={cn(numericVariants(), className)} {...props} />
   );
 }
 
@@ -107,6 +108,7 @@ export {
   H4,
   Lead,
   Muted,
+  Numeric,
   Overline,
   Text,
   TextSmall,
@@ -115,5 +117,6 @@ export {
   h2Variants,
   h3Variants,
   h4Variants,
+  numericVariants,
   textVariants,
 };
