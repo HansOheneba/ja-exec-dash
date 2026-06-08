@@ -1,26 +1,178 @@
 @import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@custom-variant dark (&:is(.dark *));
 
 @theme inline {
+  /* Semantic colors */
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+
+  /* Brand escape-hatch colors */
+  --color-brand-primary: var(--brand-primary);
+  --color-brand-secondary: var(--brand-secondary);
+  --color-brand-accent: var(--brand-accent);
+  --color-brand-mono-dark: var(--brand-mono-dark);
+  --color-brand-mono-mid: var(--brand-mono-mid);
+  --color-brand-mono-light: var(--brand-mono-light);
+
+  /* Fonts */
+  --font-sans: var(--font-sans);
+  --font-heading: var(--font-heading);
+
+  /* Typography scale */
+  --text-display: 3rem;
+  --text-display--line-height: 1.2;
+  --text-display--font-weight: 600;
+
+  --text-h1: 2.25rem;
+  --text-h1--line-height: 1.2;
+  --text-h1--font-weight: 600;
+
+  --text-h2: 1.875rem;
+  --text-h2--line-height: 1.2;
+  --text-h2--font-weight: 600;
+
+  --text-h3: 1.5rem;
+  --text-h3--line-height: 1.2;
+  --text-h3--font-weight: 500;
+
+  --text-h4: 1.25rem;
+  --text-h4--line-height: 1.3;
+  --text-h4--font-weight: 600;
+
+  --text-body: 1rem;
+  --text-body--line-height: 1.6;
+  --text-body--font-weight: 400;
+
+  --text-body-sm: 0.875rem;
+  --text-body-sm--line-height: 1.6;
+  --text-body-sm--font-weight: 400;
+
+  --text-caption: 0.75rem;
+  --text-caption--line-height: 1.5;
+  --text-caption--font-weight: 500;
+
+  --text-overline: 0.75rem;
+  --text-overline--line-height: 1.5;
+  --text-overline--font-weight: 600;
+
+  --text-lead: 1.125rem;
+  --text-lead--line-height: 1.6;
+  --text-lead--font-weight: 400;
+
+  /* Layout */
+  --spacing-page-x: 1.5rem;
+  --spacing-section: 2rem;
+  --container-dashboard: 80rem;
+
+  /* Radius */
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+:root {
+  --radius: 0.5rem;
+
+  /* Surfaces */
+  --background: #ffffff;
+  --foreground: #1c1919;
+  --card: #ffffff;
+  --card-foreground: #1c1919;
+  --popover: #ffffff;
+  --popover-foreground: #1c1919;
+  --muted: #f4f5f7;
+  --muted-foreground: #484848;
+
+  /* Brand actions */
+  --primary: #202356;
+  --primary-foreground: #ffffff;
+  --secondary: #f0f1f4;
+  --secondary-foreground: #202356;
+
+  /* Interactive hovers */
+  --accent: #f0ebe3;
+  --accent-foreground: #202356;
+
+  /* Feedback */
+  --destructive: #c45c57;
+  --border: #e2e4ea;
+  --input: #e2e4ea;
+  --ring: #b2936b;
+
+  /* Sidebar (navy shell) */
+  --sidebar: #202356;
+  --sidebar-foreground: #ffffff;
+  --sidebar-primary: #b2936b;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #181d42;
+  --sidebar-accent-foreground: #ffffff;
+  --sidebar-border: #181d42;
+  --sidebar-ring: #b2936b;
+
+  /* Charts */
+  --chart-1: #202356;
+  --chart-2: #181d42;
+  --chart-3: #b2936b;
+  --chart-4: #484848;
+  --chart-5: #9a9a9a;
+
+  /* Raw brand tokens */
+  --brand-primary: #202356;
+  --brand-secondary: #181d42;
+  --brand-accent: #b2936b;
+  --brand-mono-dark: #1c1919;
+  --brand-mono-mid: #484848;
+  --brand-mono-light: #9a9a9a;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
   }
-}
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  body {
+    @apply bg-background text-foreground font-sans;
+  }
+
+  h1,
+  h2,
+  h3 {
+    @apply font-heading;
+  }
 }
