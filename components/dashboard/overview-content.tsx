@@ -14,7 +14,7 @@ import {
   DashCardMetric,
   DashCardTitle,
 } from "@/components/ui/dash-card";
-import { H1, Muted, Overline, TextSmall } from "@/components/ui/typography";
+import { H1, Muted, TextSmall } from "@/components/ui/typography";
 
 function OverviewContent() {
   const today = new Date().toLocaleDateString("en-GB", {
@@ -29,7 +29,6 @@ function OverviewContent() {
       <PageShell className="flex flex-col gap-(--spacing-section)">
         <header className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
           <div className="flex flex-col gap-1">
-            <Overline>Client Dashboard</Overline>
             <H1>Welcome back, Lois</H1>
             <Muted>{today}</Muted>
           </div>

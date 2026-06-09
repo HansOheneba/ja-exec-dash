@@ -227,7 +227,7 @@
   }
 
   [data-collapsible="icon"] [data-sidebar="content"] {
-    @apply flex w-full flex-1 flex-col justify-center px-2;
+    @apply flex w-full flex-1 flex-col justify-start px-2;
   }
 
   [data-collapsible="icon"] [data-sidebar="group"] {

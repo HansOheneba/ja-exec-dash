@@ -35,10 +35,10 @@ function DashboardShell({ children }: { children: React.ReactNode }) {
       }
     >
       <Sidebar collapsible="icon" className="border-r border-sidebar-border">
-        <SidebarHeader className="items-center px-3 py-5">
+        <SidebarHeader className="gap-3 px-3 pb-4 pt-5 flex ">
           <Link
             href="/"
-            className="flex size-10 items-center justify-center rounded-lg transition-opacity hover:opacity-80"
+            className="flex mx-auto size-10 shrink-0 items-center justify-center rounded-lg transition-opacity hover:opacity-80"
           >
             <Image
               src="/logos/ja-symbol-white.png"
@@ -49,12 +49,10 @@ function DashboardShell({ children }: { children: React.ReactNode }) {
               priority
             />
           </Link>
-        </SidebarHeader>
 
-        <SidebarContent>
-          <SidebarGroup className="flex flex-1 flex-col justify-center py-4">
+          <SidebarGroup className="p-0">
             <SidebarGroupContent>
-              <SidebarMenu>
+              <SidebarMenu className="gap-1">
                 {mainNavItems.map((item) => {
                   const isActive =
                     item.href === "/"
@@ -83,7 +81,9 @@ function DashboardShell({ children }: { children: React.ReactNode }) {
               </SidebarMenu>
             </SidebarGroupContent>
           </SidebarGroup>
-        </SidebarContent>
+        </SidebarHeader>
+
+        <SidebarContent className="flex-1" />
 
         <SidebarFooter className="items-center px-3 pb-5 pt-2">
           <SidebarMenu>
