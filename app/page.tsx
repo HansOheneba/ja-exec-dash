@@ -1,5 +1,5 @@
-import { OverviewContent } from "@/components/dashboard/overview-content";
+import { redirect } from "next/navigation";
 
-export default function Home() {
-  return <OverviewContent />;
+export default function RootPage() {
+  redirect("/login");
 }

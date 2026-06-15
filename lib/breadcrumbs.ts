@@ -1,27 +1,28 @@
-import { mainNavItems } from "@/lib/navigation";
+import type { NavItem } from "@/lib/navigation";
 
 type BreadcrumbItem = {
   label: string;
   href: string;
 };
 
-function getBreadcrumbs(pathname: string): BreadcrumbItem[] {
-  const crumbs: BreadcrumbItem[] = [
-    { label: "Dashboard", href: "/" },
-  ];
+function getBreadcrumbs(
+  pathname: string,
+  navItems: NavItem[],
+  rootHref: string,
+  rootLabel = "Dashboard"
+): BreadcrumbItem[] {
+  const crumbs: BreadcrumbItem[] = [{ label: rootLabel, href: rootHref }];
 
-  if (pathname === "/") {
+  if (pathname === rootHref) {
     return crumbs;
   }
 
-  const match = mainNavItems.find(
-    (item) => item.href !== "/" && pathname.startsWith(item.href)
+  const match = navItems.find(
+    (item) => item.href !== rootHref && pathname.startsWith(item.href)
   );
 
   if (match) {
     crumbs.push({ label: match.label, href: match.href });
-  } else if (pathname === "/assets" || pathname === "/design-system") {
-    crumbs.push({ label: "Design System", href: "/assets" });
   }
 
   return crumbs;

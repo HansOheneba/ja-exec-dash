@@ -5,11 +5,22 @@ import { usePathname } from "next/navigation";
 import { ChevronRight } from "lucide-react";
 
 import { getBreadcrumbs } from "@/lib/breadcrumbs";
+import { mainNavItems, type NavItem } from "@/lib/navigation";
 import { cn } from "@/lib/utils";
 
-function DashboardBreadcrumbs({ className }: { className?: string }) {
+interface DashboardBreadcrumbsProps {
+  className?: string;
+  navItems?: NavItem[];
+  basePath?: string;
+}
+
+function DashboardBreadcrumbs({
+  className,
+  navItems = mainNavItems,
+  basePath = "/dashboard",
+}: DashboardBreadcrumbsProps) {
   const pathname = usePathname();
-  const crumbs = getBreadcrumbs(pathname);
+  const crumbs = getBreadcrumbs(pathname, navItems, basePath);
 
   return (
     <nav aria-label="Breadcrumb" className={cn("min-w-0", className)}>

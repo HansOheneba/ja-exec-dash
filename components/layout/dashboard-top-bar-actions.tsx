@@ -20,7 +20,11 @@ const currentUser = {
   initials: "LL",
 };
 
-function DashboardTopBarActions() {
+function DashboardTopBarActions({
+  accountLabel = "Client account",
+}: {
+  accountLabel?: string;
+}) {
   function handleLogout() {
     // Placeholder until auth is wired up
     window.location.href = "/";
@@ -56,7 +60,7 @@ function DashboardTopBarActions() {
           <DropdownMenuGroup>
             <DropdownMenuLabel className="font-normal">
               <p className="text-sm font-medium">{currentUser.name}</p>
-              <p className="text-xs text-muted-foreground">Client account</p>
+              <p className="text-xs text-muted-foreground">{accountLabel}</p>
             </DropdownMenuLabel>
           </DropdownMenuGroup>
           <DropdownMenuSeparator />

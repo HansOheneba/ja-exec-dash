@@ -2,10 +2,24 @@
 
 import { DashboardBreadcrumbs } from "@/components/layout/dashboard-breadcrumbs";
 import { DashboardTopBarActions } from "@/components/layout/dashboard-top-bar-actions";
+import { PortalSwitcher } from "@/components/layout/portal-switcher";
 import { SidebarToggle } from "@/components/layout/sidebar-toggle";
+import type { NavItem } from "@/lib/navigation";
 import { cn } from "@/lib/utils";
 
-function DashboardTopBar({ className }: { className?: string }) {
+interface DashboardTopBarProps {
+  className?: string;
+  navItems?: NavItem[];
+  basePath?: string;
+  accountLabel?: string;
+}
+
+function DashboardTopBar({
+  className,
+  navItems,
+  basePath,
+  accountLabel,
+}: DashboardTopBarProps) {
   return (
     <header
       className={cn(
@@ -14,10 +28,15 @@ function DashboardTopBar({ className }: { className?: string }) {
       )}
     >
       <SidebarToggle />
-      <DashboardBreadcrumbs className="hidden min-w-0 sm:block" />
+      <DashboardBreadcrumbs
+        className="hidden min-w-0 sm:block"
+        navItems={navItems}
+        basePath={basePath}
+      />
 
-      <div className="ml-auto flex shrink-0 items-center">
-        <DashboardTopBarActions />
+      <div className="ml-auto flex shrink-0 items-center gap-3">
+        <PortalSwitcher />
+        <DashboardTopBarActions accountLabel={accountLabel} />
       </div>
     </header>
   );

@@ -15,22 +15,16 @@ import {
   DashCardTitle,
 } from "@/components/ui/dash-card";
 import { H1, Muted, TextSmall } from "@/components/ui/typography";
+import { ClientDate } from "@/components/ui/client-date";
 
 function OverviewContent() {
-  const today = new Date().toLocaleDateString("en-GB", {
-    weekday: "long",
-    day: "numeric",
-    month: "long",
-    year: "numeric",
-  });
-
   return (
     <DashboardShell>
       <PageShell className="flex flex-col gap-(--spacing-section)">
         <header className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
           <div className="flex flex-col gap-1">
             <H1>Welcome back, Lois</H1>
-            <Muted>{today}</Muted>
+            <ClientDate />
           </div>
           <div className="flex flex-wrap gap-2">
             <Button variant="outline" size="sm">

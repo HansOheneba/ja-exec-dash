@@ -6,7 +6,7 @@ import { usePathname } from "next/navigation";
 import { Settings } from "lucide-react";
 
 import { DashboardTopBar } from "@/components/layout/dashboard-top-bar";
-import { mainNavItems } from "@/lib/navigation";
+import { mainNavItems, type NavItem } from "@/lib/navigation";
 import {
   Sidebar,
   SidebarContent,
@@ -22,7 +22,19 @@ import {
 } from "@/components/ui/sidebar";
 import { cn } from "@/lib/utils";
 
-function DashboardShell({ children }: { children: React.ReactNode }) {
+interface DashboardShellProps {
+  children: React.ReactNode;
+  navItems?: NavItem[];
+  basePath?: string;
+  accountLabel?: string;
+}
+
+function DashboardShell({
+  children,
+  navItems = mainNavItems,
+  basePath = "/dashboard",
+  accountLabel,
+}: DashboardShellProps) {
   const pathname = usePathname();
 
   return (
@@ -37,7 +49,7 @@ function DashboardShell({ children }: { children: React.ReactNode }) {
       <Sidebar collapsible="icon" className="border-r border-sidebar-border">
         <SidebarHeader className="gap-3 px-3 pb-4 pt-5 flex ">
           <Link
-            href="/"
+            href={basePath}
             className="flex mx-auto size-10 shrink-0 items-center justify-center rounded-lg transition-opacity hover:opacity-80"
           >
             <Image
@@ -53,10 +65,10 @@ function DashboardShell({ children }: { children: React.ReactNode }) {
           <SidebarGroup className="p-0">
             <SidebarGroupContent>
               <SidebarMenu className="gap-1">
-                {mainNavItems.map((item) => {
+                {navItems.map((item) => {
                   const isActive =
-                    item.href === "/"
-                      ? pathname === "/"
+                    item.href === basePath
+                      ? pathname === basePath
                       : pathname.startsWith(item.href);
 
                   return (
@@ -102,7 +114,11 @@ function DashboardShell({ children }: { children: React.ReactNode }) {
       </Sidebar>
 
       <SidebarInset className="bg-dashboard-gradient">
-        <DashboardTopBar />
+        <DashboardTopBar
+          navItems={navItems}
+          basePath={basePath}
+          accountLabel={accountLabel}
+        />
         {children}
       </SidebarInset>
     </SidebarProvider>
