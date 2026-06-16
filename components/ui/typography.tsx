@@ -2,16 +2,27 @@ import { cva, type VariantProps } from "class-variance-authority";
 
 import { cn } from "@/lib/utils";
 
-const displayVariants = cva("font-subheading tracking-tight text-display");
+// Dashboard Title – 30px 700
+const h1Variants = cva(
+  "font-heading text-h1 font-bold tracking-tight leading-tight"
+);
 
-const h1Variants = cva("font-heading tracking-tight text-h1");
+// Page Heading – 24px 700
+const h2Variants = cva(
+  "font-subheading text-h2 font-bold tracking-tight leading-snug"
+);
 
-const h2Variants = cva("font-subheading tracking-tight text-h2");
+// Section Heading – 20px 600
+const h3Variants = cva(
+  "font-subheading text-h3 font-semibold leading-snug"
+);
 
-const h3Variants = cva("font-subheading tracking-tight text-h3");
+// Card Title – 18px 600
+const h4Variants = cva(
+  "font-subheading text-h4 font-semibold leading-snug"
+);
 
-const h4Variants = cva("font-subheading tracking-tight text-h4");
-
+// Body Text – 14px 400
 const textVariants = cva("font-sans text-body", {
   variants: {
     variant: {
@@ -24,22 +35,30 @@ const textVariants = cva("font-sans text-body", {
   },
 });
 
+// Lead / intro copy – 16px 400
 const leadVariants = cva("font-sans text-lead text-muted-foreground");
 
+// Secondary Text – 13px 400
 const textSmallVariants = cva("font-sans text-body-sm text-foreground");
 
-const captionVariants = cva("font-sans text-caption text-muted-foreground");
+// Labels – 12px 500
+const captionVariants = cva(
+  "font-sans text-caption font-medium text-muted-foreground"
+);
 
+// Small Helper Text – 12px 400
 const overlineVariants = cva(
   "font-sans text-overline uppercase tracking-wide text-muted-foreground"
 );
 
+// KPI Number – 36px 700 (within the 32–48px range)
 const numericVariants = cva(
-  "font-numeric text-3xl font-semibold tracking-tight text-foreground"
+  "font-numeric text-[2.25rem] font-bold tracking-tight leading-none text-foreground"
 );
 
+// Display – extra-large hero text, treated as Dashboard Title size
 function Display({ className, ...props }: React.ComponentProps<"h1">) {
-  return <h1 className={cn(displayVariants(), className)} {...props} />;
+  return <h1 className={cn(h1Variants(), className)} {...props} />;
 }
 
 function H1({ className, ...props }: React.ComponentProps<"h1">) {
@@ -72,10 +91,12 @@ function Lead({ className, ...props }: React.ComponentProps<"p">) {
   return <p className={cn(leadVariants(), className)} {...props} />;
 }
 
+// Secondary text – 13px
 function TextSmall({ className, ...props }: React.ComponentProps<"p">) {
   return <p className={cn(textSmallVariants(), className)} {...props} />;
 }
 
+// Labels – 12px 500
 function Caption({ className, ...props }: React.ComponentProps<"span">) {
   return <span className={cn(captionVariants(), className)} {...props} />;
 }
@@ -93,6 +114,7 @@ function Muted({ className, ...props }: React.ComponentProps<"p">) {
   );
 }
 
+// KPI Number – 36px 700
 function Numeric({ className, ...props }: React.ComponentProps<"span">) {
   return (
     <span className={cn(numericVariants(), className)} {...props} />
@@ -112,11 +134,13 @@ export {
   Overline,
   Text,
   TextSmall,
-  displayVariants,
+  captionVariants,
   h1Variants,
   h2Variants,
   h3Variants,
   h4Variants,
   numericVariants,
+  overlineVariants,
+  textSmallVariants,
   textVariants,
 };

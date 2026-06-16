@@ -11,6 +11,7 @@ type NavItem = {
   label: string;
   href: string;
   icon: LucideIcon;
+  badge?: number;
 };
 
 const mainNavItems: NavItem[] = [

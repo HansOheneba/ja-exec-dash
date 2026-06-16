@@ -41,7 +41,7 @@ export default function AdvisorDashboardPage() {
     <PageShell className="flex flex-col gap-(--spacing-section)">
       <header className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
         <div className="flex flex-col gap-1">
-          <H1>Good morning, James</H1>
+          <H1>Good morning, Jude</H1>
           <ClientDate />
         </div>
         <div className="flex flex-wrap gap-2">

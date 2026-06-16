@@ -60,7 +60,7 @@ function DashCardTitle({
   return (
     <h3
       data-slot="dash-card-title"
-      className={cn("font-subheading text-h4 text-foreground", className)}
+      className={cn("font-subheading text-h4 font-semibold text-foreground", className)}
       {...props}
     />
   );
@@ -73,7 +73,7 @@ function DashCardDescription({
   return (
     <p
       data-slot="dash-card-description"
-      className={cn("text-body-sm text-muted-foreground", className)}
+      className={cn("mt-0.5 text-body-sm text-muted-foreground", className)}
       {...props}
     />
   );

@@ -1,7 +1,9 @@
 "use client";
 
 import { DashboardShell } from "@/components/layout/dashboard-shell";
+import { CurrencyProvider } from "@/lib/currency-context";
 import { clientNavItems } from "@/lib/client-navigation";
+import { clientProfile } from "@/lib/data/profile";
 
 export default function ClientDashboardLayout({
   children,
@@ -9,12 +11,18 @@ export default function ClientDashboardLayout({
   children: React.ReactNode;
 }) {
   return (
-    <DashboardShell
-      navItems={clientNavItems}
-      basePath="/clients/dashboard"
-      accountLabel="Client account"
-    >
-      {children}
-    </DashboardShell>
+    <CurrencyProvider>
+      <DashboardShell
+        navItems={clientNavItems}
+        basePath="/clients/dashboard"
+        accountLabel="Client account"
+        showCurrencyToggle
+        userName={clientProfile.fullName}
+        userInitials={clientProfile.initials}
+        profileHref="/clients/dashboard/profile"
+      >
+        {children}
+      </DashboardShell>
+    </CurrencyProvider>
   );
 }

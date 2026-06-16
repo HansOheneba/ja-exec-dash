@@ -1,6 +1,7 @@
 "use client";
 
-import { Bell, LogOut } from "lucide-react";
+import Link from "next/link";
+import { Bell, LogOut, User } from "lucide-react";
 
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
@@ -15,18 +16,20 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Separator } from "@/components/ui/separator";
 
-const currentUser = {
-  name: "Lois Lane",
-  initials: "LL",
-};
+interface DashboardTopBarActionsProps {
+  accountLabel?: string;
+  userName?: string;
+  userInitials?: string;
+  profileHref?: string;
+}
 
 function DashboardTopBarActions({
-  accountLabel = "Client account",
-}: {
-  accountLabel?: string;
-}) {
+  accountLabel = "Account",
+  userName = "User",
+  userInitials = "U",
+  profileHref,
+}: DashboardTopBarActionsProps) {
   function handleLogout() {
-    // Placeholder until auth is wired up
     window.location.href = "/";
   }
 
@@ -44,29 +47,32 @@ function DashboardTopBarActions({
       <Separator orientation="vertical" className="h-6" />
 
       <DropdownMenu>
-        <DropdownMenuTrigger
-          className="flex items-center gap-2.5 rounded-lg px-1 py-1 outline-none transition-colors hover:bg-muted focus-visible:ring-2 focus-visible:ring-ring"
-        >
+        <DropdownMenuTrigger className="flex items-center gap-2.5 rounded-lg px-2 py-1 outline-none transition-colors hover:bg-muted focus-visible:ring-2 focus-visible:ring-ring">
           <Avatar size="sm">
-            <AvatarFallback className="bg-muted text-xs font-medium text-foreground">
-              {currentUser.initials}
+            <AvatarFallback className="bg-brand-primary text-xs font-semibold text-white">
+              {userInitials}
             </AvatarFallback>
           </Avatar>
-          <span className="hidden text-sm font-medium text-foreground sm:inline">
-            {currentUser.name}
+          <span className="text-sm font-medium text-foreground">
+            {userName.split(" ")[0]}
           </span>
         </DropdownMenuTrigger>
-        <DropdownMenuContent align="end" className="w-48">
-          <DropdownMenuGroup>
-            <DropdownMenuLabel className="font-normal">
-              <p className="text-sm font-medium">{currentUser.name}</p>
-              <p className="text-xs text-muted-foreground">{accountLabel}</p>
-            </DropdownMenuLabel>
-          </DropdownMenuGroup>
+
+        <DropdownMenuContent align="end" className="w-52">
+          <DropdownMenuLabel className="font-normal">
+            <p className="text-sm font-semibold">{userName}</p>
+            <p className="text-xs text-muted-foreground">{accountLabel}</p>
+          </DropdownMenuLabel>
           <DropdownMenuSeparator />
           <DropdownMenuGroup>
+            {profileHref && (
+              <DropdownMenuItem render={<Link href={profileHref} />}>
+                <User className="size-4" />
+                View profile
+              </DropdownMenuItem>
+            )}
             <DropdownMenuItem variant="destructive" onClick={handleLogout}>
-              <LogOut />
+              <LogOut className="size-4" />
               Log out
             </DropdownMenuItem>
           </DropdownMenuGroup>

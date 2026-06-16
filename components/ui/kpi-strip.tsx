@@ -78,7 +78,7 @@ function KpiItem({
       {...props}
     >
       <Caption>{label}</Caption>
-      <Numeric className="text-2xl">{value}</Numeric>
+      <Numeric>{value}</Numeric>
       {change ? (
         <div
           className={cn(

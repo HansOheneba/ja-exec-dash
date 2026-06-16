@@ -1,5 +1,6 @@
 "use client";
 
+import { CurrencyToggle } from "@/components/layout/currency-toggle";
 import { DashboardBreadcrumbs } from "@/components/layout/dashboard-breadcrumbs";
 import { DashboardTopBarActions } from "@/components/layout/dashboard-top-bar-actions";
 import { PortalSwitcher } from "@/components/layout/portal-switcher";
@@ -12,6 +13,10 @@ interface DashboardTopBarProps {
   navItems?: NavItem[];
   basePath?: string;
   accountLabel?: string;
+  showCurrencyToggle?: boolean;
+  userName?: string;
+  userInitials?: string;
+  profileHref?: string;
 }
 
 function DashboardTopBar({
@@ -19,6 +24,10 @@ function DashboardTopBar({
   navItems,
   basePath,
   accountLabel,
+  showCurrencyToggle = false,
+  userName,
+  userInitials,
+  profileHref,
 }: DashboardTopBarProps) {
   return (
     <header
@@ -35,8 +44,14 @@ function DashboardTopBar({
       />
 
       <div className="ml-auto flex shrink-0 items-center gap-3">
+        {showCurrencyToggle && <CurrencyToggle />}
         <PortalSwitcher />
-        <DashboardTopBarActions accountLabel={accountLabel} />
+        <DashboardTopBarActions
+          accountLabel={accountLabel}
+          userName={userName}
+          userInitials={userInitials}
+          profileHref={profileHref}
+        />
       </div>
     </header>
   );

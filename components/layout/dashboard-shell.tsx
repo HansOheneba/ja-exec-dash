@@ -27,6 +27,10 @@ interface DashboardShellProps {
   navItems?: NavItem[];
   basePath?: string;
   accountLabel?: string;
+  showCurrencyToggle?: boolean;
+  userName?: string;
+  userInitials?: string;
+  profileHref?: string;
 }
 
 function DashboardShell({
@@ -34,20 +38,20 @@ function DashboardShell({
   navItems = mainNavItems,
   basePath = "/dashboard",
   accountLabel,
+  showCurrencyToggle = false,
+  userName,
+  userInitials,
+  profileHref,
 }: DashboardShellProps) {
   const pathname = usePathname();
 
   return (
     <SidebarProvider
       defaultOpen={false}
-      style={
-        {
-          "--sidebar-width-icon": "4.5rem",
-        } as React.CSSProperties
-      }
+      style={{ "--sidebar-width-icon": "4.5rem" } as React.CSSProperties}
     >
       <Sidebar collapsible="icon" className="border-r border-sidebar-border">
-        <SidebarHeader className="gap-3 px-3 pb-4 pt-5 flex ">
+        <SidebarHeader className="gap-3 px-3 pb-4 pt-5 flex">
           <Link
             href={basePath}
             className="flex mx-auto size-10 shrink-0 items-center justify-center rounded-lg transition-opacity hover:opacity-80"
@@ -64,7 +68,7 @@ function DashboardShell({
 
           <SidebarGroup className="p-0">
             <SidebarGroupContent>
-              <SidebarMenu className="gap-1">
+              <SidebarMenu className="gap-0.5">
                 {navItems.map((item) => {
                   const isActive =
                     item.href === basePath
@@ -80,12 +84,17 @@ function DashboardShell({
                         className={cn(
                           "data-active:bg-sidebar-primary data-active:text-sidebar-primary-foreground",
                           "group-data-[collapsible=icon]:size-10! group-data-[collapsible=icon]:rounded-lg",
-                          "group-data-[collapsible=icon]:[&>span]:hidden"
+                          "group-data-[collapsible=icon]:[&>span:not(.badge)]:hidden"
                         )}
                         render={<Link href={item.href} />}
                       >
-                        <item.icon className="size-5" />
-                        <span>{item.label}</span>
+                        <item.icon className="size-5 shrink-0" />
+                        <span className="flex-1">{item.label}</span>
+                        {item.badge ? (
+                          <span className="badge ml-auto flex h-5 min-w-5 items-center justify-center rounded-full bg-brand-accent px-1 text-[10px] font-bold leading-none text-white group-data-[collapsible=icon]:hidden">
+                            {item.badge}
+                          </span>
+                        ) : null}
                       </SidebarMenuButton>
                     </SidebarMenuItem>
                   );
@@ -118,6 +127,10 @@ function DashboardShell({
           navItems={navItems}
           basePath={basePath}
           accountLabel={accountLabel}
+          showCurrencyToggle={showCurrencyToggle}
+          userName={userName}
+          userInitials={userInitials}
+          profileHref={profileHref}
         />
         {children}
       </SidebarInset>
