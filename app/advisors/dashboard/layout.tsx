@@ -13,6 +13,9 @@ export default function AdvisorDashboardLayout({
       navItems={advisorNavItems}
       basePath="/advisors/dashboard"
       accountLabel="Advisor account"
+      userName="Jude Addo"
+      userInitials="JA"
+      profileHref="/advisors/dashboard/profile"
     >
       {children}
     </DashboardShell>

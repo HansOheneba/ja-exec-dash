@@ -66,7 +66,7 @@ export const recommendations: Recommendation[] = [
     id: "r3",
     date: "15 Nov 2025",
     title: "Add exposure to Africa-focused private equity fund",
-    rationale: "JA Wealth house view: African PE offers 15-18% target return with uncorrelated risk. Minimum $250k.",
+    rationale: "House view: African private equity offers 15-18% target return with uncorrelated risk. Minimum $250k.",
     status: "declined",
   },
 ];

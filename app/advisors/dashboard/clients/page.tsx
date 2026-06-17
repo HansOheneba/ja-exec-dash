@@ -1,8 +1,8 @@
 import Link from "next/link";
-import { ChevronRight } from "lucide-react";
+import { ChevronRight, UserPlus } from "lucide-react";
 
-import { AddClientSheet } from "@/components/advisors/add-client-sheet";
 import { PageShell } from "@/components/layout/page-shell";
+import { buttonVariants } from "@/components/ui/button";
 import {
   DashCard,
   DashCardContent,
@@ -34,7 +34,13 @@ export default function AdvisorClientsPage() {
           <H1>Clients</H1>
           <Muted>Your active book of business</Muted>
         </div>
-        <AddClientSheet />
+        <Link
+          href="/advisors/dashboard/clients/new"
+          className={buttonVariants({ size: "sm" })}
+        >
+          <UserPlus className="size-4" />
+          Add client
+        </Link>
       </header>
 
       <KpiStrip>

@@ -84,6 +84,6 @@ export const clientOverview: ClientOverview = {
   marketPulse: {
     date: "16 Jun 2026",
     headline:
-      "US Federal Reserve signals two rate cuts in H2 2026. JA Wealth sees this as a strengthening case for duration in fixed income and selective re-entry into emerging market bonds.",
+      "US Federal Reserve signals two rate cuts in H2 2026. Our house view is that this strengthens the case for duration in fixed income and selective re-entry into emerging market bonds.",
   },
 };

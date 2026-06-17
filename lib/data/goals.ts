@@ -55,9 +55,7 @@ export const goals: Goal[] = [
     probabilityPct: 68,
     status: "in-progress",
     advisorNote:
-      "JA Realty has two qualifying properties in the current pipeline. Your current liquid position could support a purchase deposit now if you chose to move early.",
-    jaService: "Explore JA Realty",
-    jaServiceHref: "/clients/dashboard/ja-universe",
+      "Two qualifying properties are currently in the pipeline for this target. Your current liquid position could support a purchase deposit now if you chose to move early.",
   },
   {
     id: "citizenship",

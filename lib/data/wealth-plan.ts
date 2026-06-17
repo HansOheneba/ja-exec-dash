@@ -61,7 +61,7 @@ export const wealthPlan: WealthPlan = {
       title: "Wealth Strategy Summary",
       updatedDate: "12 Apr 2026",
       description:
-        "Your strategy is built around capital preservation and long-term growth across multiple jurisdictions, with a primary allocation to global equities and diversified fixed income. JA Wealth manages your portfolio against a custom blended benchmark.",
+        "Your strategy is built around capital preservation and long-term growth across multiple jurisdictions, with a primary allocation to global equities and diversified fixed income. Your portfolio is managed against a custom blended benchmark.",
       version: "v3.2",
       status: "Current",
     },
