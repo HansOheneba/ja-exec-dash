@@ -20,6 +20,9 @@ export type PromptChip = {
 export const CELEREY_WELCOME =
   "I am Celerey, your private wealth assistant. I can help you understand your portfolio, legacy readiness, goals, and estate planning gaps. Ask anything below, or choose a suggested question.";
 
+export const CELEREY_ADVISOR_WELCOME =
+  "Celerey workspace is online. I can scan your client book for overdue reviews, legacy gaps, at-risk goals, and rebalancing flags. Use a quick query from the panel or ask about a specific client.";
+
 export const clientPromptChips: PromptChip[] = [
   {
     id: "legacy-1",
@@ -96,6 +99,31 @@ export const advisorPromptChips: PromptChip[] = [
     query: "Where do I have rebalancing opportunities this quarter?",
     category: "portfolio",
   },
+  {
+    id: "adv-5",
+    label: "Lois Lane estate status",
+    query: "What is Lois Lane's current estate plan status and open gaps?",
+    category: "legacy",
+  },
+  {
+    id: "adv-6",
+    label: "Daniel Osei priorities",
+    query: "What should I prioritise for Daniel Osei before his next review?",
+    category: "general",
+  },
+  {
+    id: "adv-7",
+    label: "Book performance snapshot",
+    query: "Give me a portfolio performance snapshot across my client book.",
+    category: "portfolio",
+  },
+];
+
+const ADVISOR_CHIP_GROUPS: { label: string; category: PromptChip["category"] }[] = [
+  { label: "Book reviews", category: "general" },
+  { label: "Legacy ops", category: "legacy" },
+  { label: "Goals", category: "goals" },
+  { label: "Portfolio", category: "portfolio" },
 ];
 
 function matchResponse(query: string, audience: "client" | "advisor"): string {
@@ -162,4 +190,4 @@ function createMessage(role: ChatRole, content: string): ChatMessage {
   };
 }
 
-export { createMessage, getSimulatedResponse };
+export { createMessage, getSimulatedResponse, ADVISOR_CHIP_GROUPS };

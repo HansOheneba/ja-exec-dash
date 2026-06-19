@@ -9,10 +9,11 @@ export default function SignupPage() {
   return (
     <div className="flex w-full max-w-sm flex-col gap-8">
       <div className="flex flex-col gap-1">
-        <p className="text-body-sm text-white/60">Get started</p>
-        <H2 className="text-white">Create your account</H2>
+        <p className="text-body-sm text-white/60">Team access</p>
+        <H2 className="text-white">Activate your workspace</H2>
         <p className="mt-1 text-body-sm text-white/50">
-          We&apos;ll send a one-time code to verify your email.
+          Register with your JA Group work email. We&apos;ll send a one-time code
+          to verify your identity before granting portal access.
         </p>
       </div>
 
@@ -52,7 +53,7 @@ export default function SignupPage() {
             id="email"
             name="email"
             type="email"
-            placeholder="you@example.com"
+            placeholder="name@jagroup.com"
             autoComplete="email"
             required
             className="border-white/20 bg-white/10 text-white placeholder:text-white/40 focus-visible:border-white/50 focus-visible:ring-white/20"
@@ -63,12 +64,12 @@ export default function SignupPage() {
           type="submit"
           className="mt-2 w-full bg-brand-accent text-white hover:bg-brand-accent/90"
         >
-          Send code
+          Send verification code
         </Button>
       </form>
 
       <TextSmall className="text-center text-white/50">
-        Already have an account?{" "}
+        Already have access?{" "}
         <Link
           href="/login"
           className="font-medium text-white underline-offset-4 hover:underline"

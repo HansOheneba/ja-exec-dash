@@ -23,10 +23,10 @@ export default function VerifyPage() {
   return (
     <div className="flex w-full max-w-sm flex-col gap-8">
       <div className="flex flex-col gap-1">
-        <p className="text-body-sm text-white/60">Check your inbox</p>
-        <H2 className="text-white">Enter your code</H2>
+        <p className="text-body-sm text-white/60">Secure sign-in</p>
+        <H2 className="text-white">Verify your access</H2>
         <p className="mt-1 text-body-sm text-white/50">
-          We sent a 6-digit code to your email. It expires in 10 minutes.
+          We sent a 6-digit code to your work email. It expires in 10 minutes.
         </p>
       </div>
 
@@ -52,7 +52,7 @@ export default function VerifyPage() {
           className="w-full bg-brand-accent text-white hover:bg-brand-accent/90"
           onClick={() => router.push("/welcome")}
         >
-          Verify and continue
+          Continue to workspace
         </Button>
       </div>
 

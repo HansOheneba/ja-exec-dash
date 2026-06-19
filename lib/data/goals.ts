@@ -72,7 +72,7 @@ export const goals: Goal[] = [
     advisorNote:
       "Application preparation is well underway. Portugal's NHR route requires the investment threshold to be met by Q4 2027. You are on track. JA's Citizenship team can guide the legal process.",
     jaService: "CBI consultation",
-    jaServiceHref: appConfig.routes.client.concierge,
+    jaServiceHref: `${appConfig.routes.advisor.clients}/lois-lane?tab=Concierge`,
   },
   {
     id: "legacy",

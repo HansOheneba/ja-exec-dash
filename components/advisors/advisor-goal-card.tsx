@@ -19,7 +19,6 @@ function AdvisorGoalCard({ goal, formatValue }: AdvisorGoalCardProps) {
     <>
       <GoalCard
         goal={goal}
-        variant="advisor"
         formatValue={formatValue}
         onEdit={() => setEditOpen(true)}
       />

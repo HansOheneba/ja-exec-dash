@@ -38,7 +38,8 @@ export default function AuthLayout({
         {/* Footer bottom-left */}
         <div className="shrink-0">
           <TextSmall className="text-white/40">
-            Regulated wealth management. Trusted by clients across 14 countries.
+            JA Group internal portal. For authorised relationship managers and
+            wealth management staff.
           </TextSmall>
         </div>
       </div>

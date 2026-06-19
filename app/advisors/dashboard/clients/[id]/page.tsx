@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { useParams, notFound, useSearchParams } from "next/navigation";
+import { useParams, notFound, useSearchParams, useRouter, usePathname } from "next/navigation";
 import Link from "next/link";
 import {
   ArrowLeft,
@@ -57,6 +57,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Progress } from "@/components/ui/progress";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { H1, H2, TextSmall, Muted } from "@/components/ui/typography";
 import { cn } from "@/lib/utils";
 
@@ -107,29 +108,6 @@ const TABS = [
 type Tab = (typeof TABS)[number];
 
 // ─── sub-components ──────────────────────────────────────────────────────────
-
-function TabBar({ active, onChange }: { active: Tab; onChange: (t: Tab) => void }) {
-  return (
-    <div className="sticky top-0 z-10 -mx-4 overflow-x-auto border-b border-border bg-background/95 px-4 backdrop-blur-sm sm:-mx-6 sm:px-6">
-      <nav className="flex min-w-max gap-1 py-1">
-        {TABS.map((t) => (
-          <button
-            key={t}
-            onClick={() => onChange(t)}
-            className={cn(
-              "whitespace-nowrap rounded-md px-3 py-2 text-sm font-medium transition-colors",
-              active === t
-                ? "bg-muted text-foreground"
-                : "text-muted-foreground hover:bg-muted/50 hover:text-foreground"
-            )}
-          >
-            {t}
-          </button>
-        ))}
-      </nav>
-    </div>
-  );
-}
 
 function StatusBadge({ status }: { status: string }) {
   const map: Record<string, string> = {
@@ -638,6 +616,8 @@ function DocumentsPanel() {
 export default function ClientDetailPage() {
   const params = useParams<{ id: string }>();
   const searchParams = useSearchParams();
+  const router = useRouter();
+  const pathname = usePathname();
   const client = getClientById(params.id);
   if (!client) notFound();
 
@@ -648,6 +628,18 @@ export default function ClientDetailPage() {
   const [activeTab, setActiveTab] = useState<Tab>(initialTab);
   const clientSessions = advisorSessions.filter((s) => s.clientId === params.id);
   const clientTasks = advisorTasks.filter((t) => t.clientId === params.id);
+
+  function handleTabChange(tab: Tab) {
+    setActiveTab(tab);
+    const params = new URLSearchParams(searchParams.toString());
+    if (tab === "Overview") {
+      params.delete("tab");
+    } else {
+      params.set("tab", tab);
+    }
+    const qs = params.toString();
+    router.replace(qs ? `${pathname}?${qs}` : pathname, { scroll: false });
+  }
 
   return (
     <div className="flex flex-col gap-6 px-4 py-6 sm:px-6">
@@ -693,28 +685,62 @@ export default function ClientDetailPage() {
       </div>
 
       {/* Tabs */}
-      <TabBar active={activeTab} onChange={setActiveTab} />
+      <Tabs value={activeTab} onValueChange={(value) => handleTabChange(value as Tab)} className="gap-6">
+        <div className="sticky top-0 z-10 -mx-4 border-b border-border bg-background/95 px-4 backdrop-blur-sm sm:-mx-6 sm:px-6">
+          <TabsList
+            variant="line"
+            className="h-auto w-full max-w-full justify-start gap-0 overflow-x-auto rounded-none border-0 bg-transparent p-0"
+          >
+            {TABS.map((t) => (
+              <TabsTrigger
+                key={t}
+                value={t}
+                className="shrink-0 rounded-none px-4 py-2.5 text-sm data-active:font-semibold"
+              >
+                {t}
+              </TabsTrigger>
+            ))}
+          </TabsList>
+        </div>
 
-      {/* Content */}
-      <div className="pb-12">
-        {activeTab === "Overview"        && <OverviewPanel client={client} clientSessions={clientSessions} clientTasks={clientTasks} />}
-        {activeTab === "Portfolio"       && <PortfolioPanel />}
-        {activeTab === "Goals"           && <GoalsPanel clientName={client.name} />}
-        {activeTab === "Wealth Plan"     && <WealthPlanPanel />}
-        {activeTab === "Legacy"          && <AdvisorLegacyPanel clientName={client.name} />}
-        {activeTab === "Liabilities"     && <LiabilitiesPanel />}
-        {activeTab === "Sessions"        && (
+        <TabsContent value="Overview" className="pb-12">
+          <OverviewPanel client={client} clientSessions={clientSessions} clientTasks={clientTasks} />
+        </TabsContent>
+        <TabsContent value="Portfolio" className="pb-12">
+          <PortfolioPanel />
+        </TabsContent>
+        <TabsContent value="Goals" className="pb-12">
+          <GoalsPanel clientName={client.name} />
+        </TabsContent>
+        <TabsContent value="Wealth Plan" className="pb-12">
+          <WealthPlanPanel />
+        </TabsContent>
+        <TabsContent value="Legacy" className="pb-12">
+          <AdvisorLegacyPanel clientName={client.name} />
+        </TabsContent>
+        <TabsContent value="Liabilities" className="pb-12">
+          <LiabilitiesPanel />
+        </TabsContent>
+        <TabsContent value="Sessions" className="pb-12">
           <AdvisorSessionsPanel
             clientName={client.name}
             clientId={client.id}
             clientSessions={clientSessions}
           />
-        )}
-        {activeTab === "Concierge"       && <AdvisorConciergePanel clientName={client.name} />}
-        {activeTab === "Tasks"           && <TasksPanel clientTasks={clientTasks} clientName={client.name} />}
-        {activeTab === "Documents"       && <DocumentsPanel />}
-        {activeTab === "Advisor Insights"&& <AdvisorInsightsPanel clientName={client.name} />}
-      </div>
+        </TabsContent>
+        <TabsContent value="Concierge" className="pb-12">
+          <AdvisorConciergePanel clientName={client.name} />
+        </TabsContent>
+        <TabsContent value="Tasks" className="pb-12">
+          <TasksPanel clientTasks={clientTasks} clientName={client.name} />
+        </TabsContent>
+        <TabsContent value="Documents" className="pb-12">
+          <DocumentsPanel />
+        </TabsContent>
+        <TabsContent value="Advisor Insights" className="pb-12">
+          <AdvisorInsightsPanel clientName={client.name} />
+        </TabsContent>
+      </Tabs>
     </div>
   );
 }

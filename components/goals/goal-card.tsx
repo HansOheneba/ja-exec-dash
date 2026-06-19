@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import { useState } from "react";
 import {
   Building2,
@@ -8,7 +7,6 @@ import {
   GraduationCap,
   HeartHandshake,
   Landmark,
-  MessageSquare,
   MoreHorizontal,
   Pencil,
   Shield,
@@ -37,7 +35,6 @@ import {
 } from "@/components/ui/sheet";
 import { TextSmall } from "@/components/ui/typography";
 import { dashboardTheme } from "@/lib/dashboard-theme";
-import { appConfig } from "@/lib/app-config";
 import type { Goal, GoalStatus } from "@/lib/data/goals";
 import { cn } from "@/lib/utils";
 
@@ -69,13 +66,12 @@ const PROBABILITY_TONE: Record<string, string> = {
 
 type GoalCardProps = {
   goal: Goal;
-  variant: "client" | "advisor";
   formatValue: (usd: number, opts?: { compact?: boolean }) => string;
-  /** Advisor only: opens edit sheet (provided by AdvisorGoalCard wrapper). */
+  /** Opens edit sheet (provided by AdvisorGoalCard wrapper). */
   onEdit?: () => void;
 };
 
-function GoalCard({ goal, variant, formatValue, onEdit }: GoalCardProps) {
+function GoalCard({ goal, formatValue, onEdit }: GoalCardProps) {
   const [noteOpen, setNoteOpen] = useState(false);
 
   const cfg = STATUS_CONFIG[goal.status];
@@ -116,24 +112,15 @@ function GoalCard({ goal, variant, formatValue, onEdit }: GoalCardProps) {
                 Advisor note
               </DropdownMenuItem>
 
-              {variant === "client" ? (
-                <DropdownMenuItem render={<Link href={appConfig.routes.client.messages} />}>
-                  <MessageSquare className="size-4" />
-                  Request goal review
-                </DropdownMenuItem>
-              ) : (
-                <>
-                  <DropdownMenuItem onClick={onEdit}>
-                    <Pencil className="size-4" />
-                    Edit goal
-                  </DropdownMenuItem>
-                  <DropdownMenuSeparator />
-                  <DropdownMenuItem className="text-destructive focus:text-destructive">
-                    <Trash2 className="size-4" />
-                    Remove
-                  </DropdownMenuItem>
-                </>
-              )}
+              <DropdownMenuItem onClick={onEdit}>
+                <Pencil className="size-4" />
+                Edit goal
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem className="text-destructive focus:text-destructive">
+                <Trash2 className="size-4" />
+                Remove
+              </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
         </div>

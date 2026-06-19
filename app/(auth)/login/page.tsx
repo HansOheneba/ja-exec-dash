@@ -7,10 +7,11 @@ export default function LoginPage() {
   return (
     <div className="flex w-full max-w-sm flex-col gap-8">
       <div className="flex flex-col gap-1">
-        <p className="text-body-sm text-white/60">Welcome</p>
-        <H2 className="text-white">Sign in to your account</H2>
+        <p className="text-body-sm text-white/60">Wealth management workspace</p>
+        <H2 className="text-white">Sign in to the advisor portal</H2>
         <p className="mt-1 text-body-sm text-white/50">
-          Enter your email and we&apos;ll send you a one-time code.
+          Use your JA Group work email. We&apos;ll send a one-time code to verify
+          your access.
         </p>
       </div>
 
@@ -23,7 +24,7 @@ export default function LoginPage() {
             id="email"
             name="email"
             type="email"
-            placeholder="you@example.com"
+            placeholder="name@jagroup.com"
             autoComplete="email"
             required
             className="border-white/20 bg-white/10 text-white placeholder:text-white/40 focus-visible:border-white/50 focus-visible:ring-white/20"
@@ -34,7 +35,7 @@ export default function LoginPage() {
           type="submit"
           className="mt-2 w-full bg-brand-accent text-white hover:bg-brand-accent/90"
         >
-          Send code
+          Send verification code
         </Button>
       </form>
     </div>

@@ -1,13 +1,13 @@
 # Splitting into standalone Client and Advisor apps
 
-This repo is intentionally **two products in one** for development. When you duplicate it, use this guide to produce two independent Next.js apps.
+> **This copy is the standalone advisor portal.** `NEXT_PUBLIC_PORTAL=advisor`. Client routes and `lib/api/client` have been removed.
+
+This repo was originally **two products in one** for development. When you duplicate it, use this guide to produce two independent Next.js apps.
 
 ## Architecture today
 
 ```
-app/clients/dashboard/*     → Client portal (HNW client experience)
 app/advisors/dashboard/*    → Advisor portal (Jude / RM workspace)
-lib/api/client/*            → Client-only mock API
 lib/api/advisor/*           → Advisor-only mock API
 lib/api/domain/*            → Shared client record (portfolio, goals, legacy, etc.)
 ```
@@ -27,7 +27,7 @@ lib/api/domain/*            → Shared client record (portfolio, goals, legacy, 
 4. Delete legacy routes in `PORTAL_MANIFEST.legacy` (optional cleanup)
 5. Move `app/clients/dashboard/*` to `app/dashboard/*` (or keep path and update links)
 6. Update `app/page.tsx` and auth redirects to `/clients/dashboard` (or new root)
-7. Remove `PortalSwitcher` (already hidden when `NEXT_PUBLIC_PORTAL=client`)
+7. Remove `PortalSwitcher`
 8. Keep: `lib/api/client`, `lib/api/domain`, shared UI, `components/goals`, `components/celerey`
 
 ### 2. Advisor standalone
@@ -65,8 +65,7 @@ Same types, different endpoints. Keep types in domain modules when splitting.
 
 1. `components/goals/goal-card.tsx` is **client-safe** (no advisor imports)
 2. `components/advisors/advisor-goal-card.tsx` wraps edit UI for advisor use
-3. `PortalSwitcher` only renders when `NEXT_PUBLIC_PORTAL=dual`
-4. Route helpers live in `lib/app-config.ts` (no hardcoded `/clients/...` in shared components)
+3. Route helpers live in `lib/app-config.ts` (no hardcoded `/clients/...` in shared components)
 
 ## After split: route simplification (optional)
 

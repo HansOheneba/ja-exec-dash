@@ -12,7 +12,7 @@ export default function WelcomePage() {
   useEffect(() => {
     const t1 = setTimeout(() => setVisible(true), 60);
     const t2 = setTimeout(() => setExiting(true), 1900);
-    const t3 = setTimeout(() => router.push("/clients/dashboard"), 2450);
+    const t3 = setTimeout(() => router.push("/advisors/dashboard"), 2450);
 
     return () => {
       clearTimeout(t1);

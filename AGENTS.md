@@ -11,16 +11,16 @@ This version has breaking changes: APIs, conventions, and file structure may all
 
 Never use em dashes (`—`) anywhere in this project: UI copy, comments, docs, metadata, or commits. Use a comma, period, colon, hyphen, or parentheses instead. See `.cursor/rules/no-em-dashes.mdc`.
 
-## Two portals, one repo (for now)
+## Standalone advisor portal
 
-This codebase contains **two standalone products**:
+This copy is the **advisor portal only** (`NEXT_PUBLIC_PORTAL=advisor`):
 
-- **Client portal:** `app/clients/dashboard/*`
 - **Advisor portal:** `app/advisors/dashboard/*`
+- No client dashboard, portal switcher, or `lib/api/client`
 
-Data is mocked under `lib/api/` (see `lib/api/README.md`). Pages should import from `lib/api/client`, `lib/api/advisor`, or `lib/api/domain`, not ad-hoc paths.
+Data is mocked under `lib/api/` (see `lib/api/README.md`). Pages should import from `lib/api/advisor` or `lib/api/domain`, not ad-hoc paths.
 
-To split into two apps, follow `docs/SPLIT.md` and use `lib/portal-manifest.ts` as the delete list. Set `NEXT_PUBLIC_PORTAL=client` or `advisor` in each copy.
+To split the original combined repo, follow `docs/SPLIT.md` and use `lib/portal-manifest.ts` as the delete list.
 
-**Import rules:** Client code must not import `components/advisors` or `lib/api/advisor`. Use `AdvisorGoalCard` on the advisor side instead of wiring edit sheets into `GoalCard`.
+**Import rules:** Use `AdvisorGoalCard` on the advisor side instead of wiring edit sheets into `GoalCard`.
 <!-- END:project-conventions -->

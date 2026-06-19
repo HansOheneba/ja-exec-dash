@@ -28,7 +28,6 @@ interface DashboardShellProps {
   navItems?: NavItem[];
   basePath?: string;
   accountLabel?: string;
-  showCurrencyToggle?: boolean;
   userName?: string;
   userInitials?: string;
   profileHref?: string;
@@ -37,9 +36,8 @@ interface DashboardShellProps {
 function DashboardShell({
   children,
   navItems = mainNavItems,
-  basePath = "/dashboard",
+  basePath = "/advisors/dashboard",
   accountLabel,
-  showCurrencyToggle = false,
   userName,
   userInitials,
   profileHref,
@@ -128,7 +126,6 @@ function DashboardShell({
           navItems={navItems}
           basePath={basePath}
           accountLabel={accountLabel}
-          showCurrencyToggle={showCurrencyToggle}
           userName={userName}
           userInitials={userInitials}
           profileHref={profileHref}
