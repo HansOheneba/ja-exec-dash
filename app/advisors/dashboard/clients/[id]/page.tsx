@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { useParams, notFound } from "next/navigation";
+import { useParams, notFound, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import {
   ArrowLeft,
@@ -12,7 +12,6 @@ import {
   Clock,
   Download,
   FileText,
-  Heart,
   Mail,
   MapPin,
   MessageSquare,
@@ -24,19 +23,20 @@ import {
 } from "lucide-react";
 
 import { AddClientTaskSheet } from "@/components/advisors/add-client-task-sheet";
-import { AddDependentSheet } from "@/components/advisors/add-dependent-sheet";
+import { AdvisorConciergePanel } from "@/components/advisors/client-panels/concierge-panel";
+import { AdvisorInsightsPanel } from "@/components/advisors/client-panels/insights-panel";
+import { AdvisorLegacyPanel } from "@/components/advisors/client-panels/legacy-panel";
+import { AdvisorSessionsPanel } from "@/components/advisors/client-panels/sessions-panel";
 import { AddGoalSheet } from "@/components/advisors/add-goal-sheet";
 import { AddHoldingSheet } from "@/components/advisors/add-holding-sheet";
 import { AddLiabilitySheet } from "@/components/advisors/add-liability-sheet";
 import { AddTaskSheet } from "@/components/advisors/add-task-sheet";
 import { EditAllocationSheet } from "@/components/advisors/edit-allocation-sheet";
-import { EditGoalSheet } from "@/components/advisors/edit-goal-sheet";
+import { AdvisorGoalCard } from "@/components/advisors/advisor-goal-card";
+import { GoalsAnalyticsSection } from "@/components/goals/goals-analytics";
 import { EditHoldingSheet } from "@/components/advisors/edit-holding-sheet";
-import { EditLegacyStatusSheet } from "@/components/advisors/edit-legacy-status-sheet";
-import { EditMilestoneSheet } from "@/components/advisors/edit-milestone-sheet";
 import { EditNotesSheet } from "@/components/advisors/edit-notes-sheet";
 import { EditPlanSectionSheet } from "@/components/advisors/edit-plan-section-sheet";
-import { EditTrustSheet } from "@/components/advisors/edit-trust-sheet";
 import { LogNoteSheet } from "@/components/advisors/log-note-sheet";
 import { PostInsightSheet } from "@/components/advisors/post-insight-sheet";
 import { ScheduleSessionSheet } from "@/components/advisors/schedule-session-sheet";
@@ -66,12 +66,9 @@ import { advisorTasks } from "@/lib/data/advisor-tasks";
 import { assetClasses, portfolioSummary } from "@/lib/data/portfolio";
 import { goals } from "@/lib/data/goals";
 import { wealthPlan } from "@/lib/data/wealth-plan";
-import { legacyProfile } from "@/lib/data/legacy";
 import { liabilities, liabilitySummary } from "@/lib/data/liabilities";
-import { upcomingSessions, pastSessions } from "@/lib/data/sessions";
 import { tasks } from "@/lib/data/tasks";
 import { docSections } from "@/lib/data/documents";
-import { advisorNotes, recommendations } from "@/lib/data/advisor-insights";
 
 // ─── helpers ────────────────────────────────────────────────────────────────
 
@@ -101,6 +98,7 @@ const TABS = [
   "Legacy",
   "Liabilities",
   "Sessions",
+  "Concierge",
   "Tasks",
   "Documents",
   "Advisor Insights",
@@ -407,67 +405,20 @@ function PortfolioPanel() {
 }
 
 function GoalsPanel({ clientName }: { clientName: string }) {
-  const STATUS_COLOR: Record<string, string> = {
-    "on-track": "text-green-600",
-    ahead: "text-blue-600",
-    "at-risk": "text-amber-600",
-    "in-progress": "text-muted-foreground",
-  };
+  const formatGoalValue = (usd: number) => fmt(usd);
+
   return (
     <div className="flex flex-col gap-(--spacing-section)">
       <div className="flex justify-end">
         <AddGoalSheet clientName={clientName} />
       </div>
-      <div className="grid grid-cols-1 gap-(--spacing-grid) lg:grid-cols-2">
-        {goals.map((g) => {
-          const pct = Math.min(100, Math.round((g.currentUSD / g.targetUSD) * 100));
-          return (
-            <DashCard key={g.id}>
-              <DashCardHeader>
-                <div>
-                  <DashCardTitle>{g.name}</DashCardTitle>
-                  <DashCardDescription>{g.category}</DashCardDescription>
-                </div>
-                <div className="flex items-center gap-2">
-                  <StatusBadge status={g.status} />
-                  <EditGoalSheet goal={g} />
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    className="text-destructive hover:text-destructive"
-                  >
-                    Remove
-                  </Button>
-                </div>
-              </DashCardHeader>
-              <DashCardContent className="gap-4">
-                <div className="flex flex-col gap-2">
-                  <div className="flex items-center justify-between">
-                    <TextSmall className="text-muted-foreground">Progress</TextSmall>
-                    <TextSmall className="font-numeric font-semibold">{pct}%</TextSmall>
-                  </div>
-                  <Progress value={pct} className="h-2" />
-                  <div className="flex justify-between">
-                    <Muted className="text-xs">{fmt(g.currentUSD)} saved</Muted>
-                    <Muted className="text-xs">Target: {fmt(g.targetUSD)}</Muted>
-                  </div>
-                </div>
-                <div className="flex items-center justify-between rounded-lg bg-muted/40 px-3 py-2">
-                  <TextSmall className="text-muted-foreground">Success probability</TextSmall>
-                  <TextSmall className={cn("font-numeric font-semibold", STATUS_COLOR[g.status])}>{g.probabilityPct}%</TextSmall>
-                </div>
-                <div className="flex flex-col gap-1 border-t border-border/60 pt-3">
-                  <Muted className="text-xs font-medium uppercase tracking-wide">Advisor note</Muted>
-                  <TextSmall className="leading-relaxed text-muted-foreground">{g.advisorNote}</TextSmall>
-                </div>
-                {g.targetDate !== "Ongoing" && (
-                  <Muted className="text-xs">Target date: {g.targetDate}</Muted>
-                )}
-              </DashCardContent>
-            </DashCard>
-          );
-        })}
+      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+        {goals.map((g) => (
+          <AdvisorGoalCard key={g.id} goal={g} formatValue={formatGoalValue} />
+        ))}
       </div>
+
+      <GoalsAnalyticsSection goals={goals} formatValue={formatGoalValue} />
     </div>
   );
 }
@@ -540,141 +491,6 @@ function WealthPlanPanel() {
   );
 }
 
-function LegacyPanel() {
-  const l = legacyProfile;
-  return (
-    <div className="flex flex-col gap-(--spacing-section)">
-      <div className="grid grid-cols-1 gap-(--spacing-grid) sm:grid-cols-2">
-        <DashCard>
-          <DashCardHeader>
-            <DashCardTitle>Will</DashCardTitle>
-            <EditLegacyStatusSheet
-              willStatus={l.willStatus}
-              willLastUpdated={l.willLastUpdated}
-              willSolicitor={l.willSolicitor}
-              powerOfAttorney={l.powerOfAttorney}
-              poaHolder={l.poaHolder}
-            />
-          </DashCardHeader>
-          <DashCardContent className="gap-2">
-            <StatusBadge status={l.willStatus} />
-            <TextSmall className="text-muted-foreground">Last updated: {l.willLastUpdated}</TextSmall>
-            <TextSmall className="text-muted-foreground">Solicitor: {l.willSolicitor}</TextSmall>
-          </DashCardContent>
-        </DashCard>
-        <DashCard>
-          <DashCardHeader>
-            <DashCardTitle>Power of Attorney</DashCardTitle>
-          </DashCardHeader>
-          <DashCardContent className="gap-2">
-            <StatusBadge status={l.powerOfAttorney} />
-            <TextSmall className="text-muted-foreground">Holder: {l.poaHolder}</TextSmall>
-          </DashCardContent>
-        </DashCard>
-      </div>
-
-      <div className="grid grid-cols-1 gap-(--spacing-grid) lg:grid-cols-2">
-        <DashCard>
-          <DashCardHeader>
-            <DashCardTitle>Dependents</DashCardTitle>
-            <DashCardDescription>{l.dependents.length} listed</DashCardDescription>
-          </DashCardHeader>
-          <DashCardContent className="gap-4">
-            {l.dependents.map((d) => (
-              <div key={d.id} className="flex items-start justify-between gap-3 border-b border-border/60 pb-4 last:border-0 last:pb-0">
-                <div className="flex flex-col gap-0.5">
-                  <div className="flex items-center gap-2">
-                    <TextSmall className="font-semibold">{d.name}</TextSmall>
-                    <Badge variant="outline">{d.relation}</Badge>
-                  </div>
-                  <Muted className="text-xs">DOB: {d.dateOfBirth}</Muted>
-                  {d.notes && <Muted className="text-xs">{d.notes}</Muted>}
-                </div>
-                <button className="shrink-0 text-xs text-muted-foreground hover:text-destructive">Remove</button>
-              </div>
-            ))}
-            <div className="pt-1"><AddDependentSheet mode="dependent" /></div>
-          </DashCardContent>
-        </DashCard>
-
-        <DashCard>
-          <DashCardHeader>
-            <DashCardTitle>Beneficiaries</DashCardTitle>
-          </DashCardHeader>
-          <DashCardContent className="gap-4">
-            {l.beneficiaries.map((b) => (
-              <div key={b.id} className="flex items-start justify-between gap-4 border-b border-border/60 pb-4 last:border-0 last:pb-0">
-                <div className="flex flex-col gap-0.5">
-                  <TextSmall className="font-semibold">{b.name}</TextSmall>
-                  <Muted className="text-xs">{b.relation} · {b.instrument}</Muted>
-                </div>
-                <div className="flex items-center gap-3">
-                  <TextSmall className="font-numeric font-semibold">{b.allocationPct}%</TextSmall>
-                  <button className="text-xs text-muted-foreground hover:text-destructive">Remove</button>
-                </div>
-              </div>
-            ))}
-            <div className="pt-1"><AddDependentSheet mode="beneficiary" /></div>
-          </DashCardContent>
-        </DashCard>
-      </div>
-
-      {l.trustStructures.map((t) => (
-        <DashCard key={t.id}>
-          <DashCardHeader>
-            <div>
-              <DashCardTitle>{t.name}</DashCardTitle>
-              <DashCardDescription>{t.type} · {t.jurisdictionFormed} · Est. {t.established}</DashCardDescription>
-            </div>
-            <div className="flex items-center gap-2">
-              <div className="flex flex-col items-end gap-1">
-                <StatusBadge status={t.status} />
-                <Muted className="text-xs font-numeric">{fmt(t.estimatedValueUSD)}</Muted>
-              </div>
-              <EditTrustSheet trust={t} />
-            </div>
-          </DashCardHeader>
-          <DashCardContent className="gap-3">
-            <div className="grid grid-cols-2 gap-4">
-              <div><Muted className="text-xs font-medium uppercase tracking-wide">Trustees</Muted><div className="mt-1 flex flex-col gap-0.5">{t.trustees.map((tr) => <TextSmall key={tr} className="text-muted-foreground">{tr}</TextSmall>)}</div></div>
-              <div><Muted className="text-xs font-medium uppercase tracking-wide">Beneficiaries</Muted><div className="mt-1 flex flex-col gap-0.5">{t.beneficiaries.map((b) => <TextSmall key={b} className="text-muted-foreground">{b}</TextSmall>)}</div></div>
-            </div>
-            <TextSmall className="text-muted-foreground">{t.notes}</TextSmall>
-          </DashCardContent>
-        </DashCard>
-      ))}
-
-      <DashCard>
-        <DashCardHeader>
-          <DashCardTitle>Succession Milestones</DashCardTitle>
-          <EditMilestoneSheet mode="add" />
-        </DashCardHeader>
-        <DashCardContent className="gap-4">
-          {l.successionMilestones.map((m) => {
-            const Icon = m.status === "completed" ? CheckCircle2 : m.status === "in-progress" ? Clock : XCircle;
-            const iconCls = m.status === "completed" ? "text-green-500" : m.status === "in-progress" ? "text-amber-500" : "text-muted-foreground";
-            return (
-              <div key={m.id} className="flex items-start gap-3 border-b border-border/60 pb-4 last:border-0 last:pb-0">
-                <Icon className={cn("mt-0.5 size-4 shrink-0", iconCls)} />
-                <div className="min-w-0 flex-1">
-                  <TextSmall className="font-medium">{m.title}</TextSmall>
-                  <Muted className="text-xs">{m.targetDate} · {m.notes}</Muted>
-                </div>
-                <EditMilestoneSheet mode="edit" milestone={m} />
-              </div>
-            );
-          })}
-        </DashCardContent>
-      </DashCard>
-
-      <div className="rounded-xl border border-border bg-muted/30 px-5 py-4">
-        <Muted className="mb-1 text-xs font-medium uppercase tracking-wide">Advisor note</Muted>
-        <TextSmall className="leading-relaxed text-muted-foreground">{l.advisorNote}</TextSmall>
-      </div>
-    </div>
-  );
-}
-
 function LiabilitiesPanel() {
   const total = liabilitySummary.totalOutstandingUSD;
   const monthly = liabilitySummary.monthlyDebtServiceUSD;
@@ -722,63 +538,6 @@ function LiabilitiesPanel() {
           </DashCard>
         );
       })}
-    </div>
-  );
-}
-
-function SessionsPanel({ clientSessions }: { clientSessions: typeof advisorSessions }) {
-  const upcoming = clientSessions.filter((s) => s.status === "upcoming");
-  const past = clientSessions.filter((s) => s.status !== "upcoming");
-  return (
-    <div className="flex flex-col gap-(--spacing-section)">
-      <DashCard>
-        <DashCardHeader>
-          <div><DashCardTitle>Upcoming Sessions</DashCardTitle><DashCardDescription>{upcoming.length} scheduled</DashCardDescription></div>
-        </DashCardHeader>
-        <DashCardContent className="gap-4">
-          {upcomingSessions.map((s) => (
-            <div key={s.id} className="flex items-start justify-between gap-4 border-b border-border/60 pb-4 last:border-0 last:pb-0">
-              <div className="flex flex-col gap-0.5">
-                <TextSmall className="font-semibold">{s.type}</TextSmall>
-                <Muted>{s.date} at {s.time} · {s.format}</Muted>
-              </div>
-              <Badge variant={s.status === "Confirmed" ? "secondary" : "outline"}>{s.status}</Badge>
-            </div>
-          ))}
-          {upcoming.length === 0 && upcomingSessions.length === 0 && <Muted className="text-center text-sm">No upcoming sessions.</Muted>}
-        </DashCardContent>
-      </DashCard>
-
-      <DashCard>
-        <DashCardHeader>
-          <DashCardTitle>Session History</DashCardTitle>
-        </DashCardHeader>
-        <DashCardContent className="gap-4">
-          {pastSessions.map((s) => (
-            <div key={s.id} className="flex items-start justify-between gap-4 border-b border-border/60 pb-4 last:border-0 last:pb-0">
-              <div className="flex items-start gap-3">
-                <CheckCircle2 className="mt-0.5 size-4 shrink-0 text-green-500" />
-                <div>
-                  <TextSmall className="font-semibold">{s.type}</TextSmall>
-                  <Muted>{s.date}</Muted>
-                  <TextSmall className="mt-1 text-muted-foreground">{s.outcome}</TextSmall>
-                </div>
-              </div>
-              {s.hasMinutes && <Button size="sm" variant="ghost"><FileText className="size-4" />Minutes</Button>}
-            </div>
-          ))}
-          {past.map((s) => (
-            <div key={s.id} className="flex items-start gap-3 border-b border-border/60 pb-4 last:border-0 last:pb-0">
-              <CheckCircle2 className="mt-0.5 size-4 shrink-0 text-green-500" />
-              <div>
-                <TextSmall className="font-semibold">{s.type}</TextSmall>
-                <Muted>{s.date} · {s.duration}</Muted>
-                {s.notes && <TextSmall className="mt-1 text-muted-foreground">{s.notes}</TextSmall>}
-              </div>
-            </div>
-          ))}
-        </DashCardContent>
-      </DashCard>
     </div>
   );
 }
@@ -874,69 +633,19 @@ function DocumentsPanel() {
   );
 }
 
-function InsightsPanel({ clientName }: { clientName: string }) {
-  const STATUS_COLOR: Record<string, string> = { "pending-acknowledgement": "text-amber-600", implemented: "text-green-600", declined: "text-muted-foreground" };
-  return (
-    <div className="flex flex-col gap-(--spacing-section)">
-      <div className="flex justify-end">
-        <PostInsightSheet clientName={clientName} />
-      </div>
-
-      <DashCard>
-        <DashCardHeader>
-          <div><DashCardTitle>Advisor Notes</DashCardTitle><DashCardDescription>Notes posted to the client portal</DashCardDescription></div>
-        </DashCardHeader>
-        <DashCardContent className="gap-5">
-          {advisorNotes.map((n) => (
-            <div key={n.id} className="flex flex-col gap-2 border-b border-border/60 pb-5 last:border-0 last:pb-0">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <Badge variant="outline" className="text-xs">{n.type}</Badge>
-                </div>
-                <Muted className="text-xs">{n.date}</Muted>
-              </div>
-              <TextSmall className="font-semibold">{n.subject}</TextSmall>
-              <TextSmall className="leading-relaxed text-muted-foreground">{n.body}</TextSmall>
-              <div className="flex gap-2">
-                <Button size="sm" variant="outline">Edit</Button>
-                <Button size="sm" variant="ghost" className="text-destructive hover:text-destructive">Remove</Button>
-              </div>
-            </div>
-          ))}
-        </DashCardContent>
-      </DashCard>
-
-      <DashCard>
-        <DashCardHeader>
-          <div><DashCardTitle>Recommendations</DashCardTitle><DashCardDescription>Actions recommended to the client</DashCardDescription></div>
-        </DashCardHeader>
-        <DashCardContent className="gap-4">
-          {recommendations.map((r) => (
-            <div key={r.id} className="flex items-start justify-between gap-4 border-b border-border/60 pb-4 last:border-0 last:pb-0">
-              <div className="min-w-0 flex-1">
-                <TextSmall className="font-semibold">{r.title}</TextSmall>
-                <TextSmall className="mt-0.5 text-muted-foreground">{r.rationale}</TextSmall>
-                <Muted className="mt-1 text-xs">{r.date}</Muted>
-              </div>
-              <span className={cn("shrink-0 text-xs font-medium capitalize", STATUS_COLOR[r.status])}>
-                {r.status.replace(/-/g, " ")}
-              </span>
-            </div>
-          ))}
-        </DashCardContent>
-      </DashCard>
-    </div>
-  );
-}
-
 // ─── main page ───────────────────────────────────────────────────────────────
 
 export default function ClientDetailPage() {
   const params = useParams<{ id: string }>();
+  const searchParams = useSearchParams();
   const client = getClientById(params.id);
   if (!client) notFound();
 
-  const [activeTab, setActiveTab] = useState<Tab>("Overview");
+  const tabFromUrl = searchParams.get("tab");
+  const initialTab =
+    tabFromUrl && TABS.includes(tabFromUrl as Tab) ? (tabFromUrl as Tab) : "Overview";
+
+  const [activeTab, setActiveTab] = useState<Tab>(initialTab);
   const clientSessions = advisorSessions.filter((s) => s.clientId === params.id);
   const clientTasks = advisorTasks.filter((t) => t.clientId === params.id);
 
@@ -992,12 +701,19 @@ export default function ClientDetailPage() {
         {activeTab === "Portfolio"       && <PortfolioPanel />}
         {activeTab === "Goals"           && <GoalsPanel clientName={client.name} />}
         {activeTab === "Wealth Plan"     && <WealthPlanPanel />}
-        {activeTab === "Legacy"          && <LegacyPanel />}
+        {activeTab === "Legacy"          && <AdvisorLegacyPanel clientName={client.name} />}
         {activeTab === "Liabilities"     && <LiabilitiesPanel />}
-        {activeTab === "Sessions"        && <SessionsPanel clientSessions={clientSessions} />}
+        {activeTab === "Sessions"        && (
+          <AdvisorSessionsPanel
+            clientName={client.name}
+            clientId={client.id}
+            clientSessions={clientSessions}
+          />
+        )}
+        {activeTab === "Concierge"       && <AdvisorConciergePanel clientName={client.name} />}
         {activeTab === "Tasks"           && <TasksPanel clientTasks={clientTasks} clientName={client.name} />}
         {activeTab === "Documents"       && <DocumentsPanel />}
-        {activeTab === "Advisor Insights"&& <InsightsPanel clientName={client.name} />}
+        {activeTab === "Advisor Insights"&& <AdvisorInsightsPanel clientName={client.name} />}
       </div>
     </div>
   );

@@ -97,6 +97,8 @@ interface KpiItemProps extends React.ComponentProps<"div"> {
   tone?: KpiTone;
   /** Legacy trend → maps to tone automatically. */
   trend?: "up" | "down" | "neutral";
+  /** Visual emphasis for hero KPI tiles. */
+  emphasis?: "primary";
   /** Optional icon shown above the label. */
   icon?: React.ReactNode;
   /** Show skeleton placeholder instead of values. */
@@ -111,6 +113,7 @@ function KpiItem({
   change,
   tone,
   trend,
+  emphasis,
   icon,
   loading,
   onClick,
@@ -133,6 +136,7 @@ function KpiItem({
       className={cn(
         dashboardTheme.kpiTile,
         "flex flex-col gap-1 px-4 py-3.5",
+        emphasis === "primary" && "border-brand-primary/30 bg-brand-primary/5",
         onClick && !loading && "cursor-pointer transition-shadow hover:shadow-md",
         className,
       )}

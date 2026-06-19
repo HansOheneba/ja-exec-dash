@@ -3,7 +3,6 @@ import {
   CalendarDays,
   CheckSquare,
   FileText,
-  Heart,
   LayoutDashboard,
   Lightbulb,
   MessageSquare,
@@ -14,31 +13,30 @@ import {
   Target,
   User,
   Users2,
-  type LucideIcon,
 } from "lucide-react";
 
-type NavItem = {
-  label: string;
-  href: string;
-  icon: LucideIcon;
-  badge?: number;
-};
+import { appConfig } from "@/lib/app-config";
+import type { NavItem } from "@/lib/navigation";
+import { CELEREY_ICON_SRC } from "@/lib/data/celerey";
+
+const { dashboard } = appConfig.routes.client;
 
 const clientNavItems: NavItem[] = [
-  { label: "Dashboard",        href: "/clients/dashboard",                  icon: LayoutDashboard },
-  { label: "My Portfolio",     href: "/clients/dashboard/portfolio",        icon: PieChart },
-  { label: "My Goals",         href: "/clients/dashboard/goals",            icon: Target },
-  { label: "Wealth Plan",      href: "/clients/dashboard/wealth-plan",      icon: BookOpen },
-  { label: "Legacy",           href: "/clients/dashboard/legacy",           icon: Heart },
-  { label: "Advisor Insights", href: "/clients/dashboard/advisor-insights", icon: Lightbulb },
-  { label: "Sessions",         href: "/clients/dashboard/sessions",         icon: CalendarDays },
-  { label: "Documents",        href: "/clients/dashboard/documents",        icon: FileText },
-  { label: "Concierge",        href: "/clients/dashboard/concierge",        icon: Star },
-  { label: "Liabilities",      href: "/clients/dashboard/liabilities",      icon: Receipt },
-  { label: "Messages",         href: "/clients/dashboard/messages",         icon: MessageSquare, badge: 2 },
-  { label: "Tasks",            href: "/clients/dashboard/tasks",            icon: CheckSquare,   badge: 3 },
-  { label: "Market Insights",  href: "/clients/dashboard/market-insights",  icon: Newspaper },
-  { label: "Profile",          href: "/clients/dashboard/profile",          icon: User },
+  { label: "Dashboard",        href: dashboard,                  icon: LayoutDashboard },
+  { label: "My Portfolio",     href: `${dashboard}/portfolio`,        icon: PieChart },
+  { label: "My Goals",         href: `${dashboard}/goals`,            icon: Target },
+  { label: "Wealth Plan",      href: `${dashboard}/wealth-plan`,      icon: BookOpen },
+  { label: "Legacy",           href: `${dashboard}/legacy`,           icon: Users2 },
+  { label: "Ask Celerey",      href: `${dashboard}/celerey`,          iconSrc: CELEREY_ICON_SRC },
+  { label: "Advisor Insights", href: `${dashboard}/advisor-insights`, icon: Lightbulb },
+  { label: "Sessions",         href: `${dashboard}/sessions`,         icon: CalendarDays },
+  { label: "Documents",        href: `${dashboard}/documents`,        icon: FileText },
+  { label: "Concierge",        href: `${dashboard}/concierge`,        icon: Star },
+  { label: "Liabilities",      href: `${dashboard}/liabilities`,      icon: Receipt },
+  { label: "Messages",         href: `${dashboard}/messages`,         icon: MessageSquare, badge: 2 },
+  { label: "Tasks",            href: `${dashboard}/tasks`,            icon: CheckSquare,   badge: 3 },
+  { label: "Market Insights",  href: `${dashboard}/market-insights`,  icon: Newspaper },
+  { label: "Profile",          href: `${dashboard}/profile`,          icon: User },
 ];
 
-export { clientNavItems, type NavItem };
+export { clientNavItems };

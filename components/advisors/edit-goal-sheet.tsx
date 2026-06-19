@@ -19,19 +19,26 @@ import {
 } from "@/components/ui/sheet";
 import type { Goal } from "@/lib/data/goals";
 
-type EditGoalSheetProps = { goal: Goal };
+type EditGoalSheetProps = {
+  goal: Goal;
+  open?: boolean;
+  onOpenChange?: (open: boolean) => void;
+  hideTrigger?: boolean;
+};
 
-function EditGoalSheet({ goal }: EditGoalSheetProps) {
+function EditGoalSheet({ goal, open, onOpenChange, hideTrigger }: EditGoalSheetProps) {
   return (
-    <Sheet>
-      <SheetTrigger
-        render={
-          <Button variant="outline" size="sm">
-            <Pencil className="size-4" />
-            Edit
-          </Button>
-        }
-      />
+    <Sheet open={open} onOpenChange={onOpenChange}>
+      {!hideTrigger && (
+        <SheetTrigger
+          render={
+            <Button variant="outline" size="sm">
+              <Pencil className="size-4" />
+              Edit
+            </Button>
+          }
+        />
+      )}
       <SheetContent side="right" className="flex w-full flex-col sm:max-w-md">
         <SheetHeader>
           <SheetTitle>Edit goal</SheetTitle>

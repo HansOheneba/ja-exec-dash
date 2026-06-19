@@ -12,6 +12,10 @@ export interface ServiceRequest {
   expectedCompletion: string;
   status: ServiceRequestStatus;
   notes: string;
+  nextStep?: string;
+  lastUpdate?: string;
+  progressPct?: number;
+  requiresAttention?: boolean;
 }
 
 export interface ServiceItem {
@@ -34,6 +38,20 @@ export interface ExclusiveEvent {
   location: string;
   description: string;
   cta: string;
+  featured?: boolean;
+}
+
+export interface PartnerCategory {
+  label: string;
+  partners: string[];
+}
+
+export interface ConciergeOverview {
+  activeCount: number;
+  attentionCount: number;
+  inProgressCount: number;
+  nextMilestone: string;
+  primaryOfficer: string;
 }
 
 export const activeRequests: ServiceRequest[] = [
@@ -47,6 +65,10 @@ export const activeRequests: ServiceRequest[] = [
     expectedCompletion: "Q1 2027",
     status: "in-progress",
     notes: "Due diligence complete. Awaiting document submission to Portuguese immigration authority.",
+    nextStep: "Submit certified documents to immigration authority",
+    lastUpdate: "12 Jun 2026 · Kwame Asare",
+    progressPct: 65,
+    requiresAttention: true,
   },
   {
     id: "r2",
@@ -58,6 +80,10 @@ export const activeRequests: ServiceRequest[] = [
     expectedCompletion: "28 Jun 2026",
     status: "submitted",
     notes: "Standard Chartered private banking application under review.",
+    nextStep: "Awaiting bank compliance review (5 to 10 business days)",
+    lastUpdate: "8 Jun 2026 · Sarah Kim",
+    progressPct: 30,
+    requiresAttention: false,
   },
   {
     id: "r3",
@@ -69,6 +95,10 @@ export const activeRequests: ServiceRequest[] = [
     expectedCompletion: "30 Apr 2026",
     status: "completed",
     notes: "Completed. Annual tax summary prepared and uploaded to your documents.",
+    nextStep: "Closed",
+    lastUpdate: "30 Apr 2026 · Kofi Mensah",
+    progressPct: 100,
+    requiresAttention: false,
   },
 ];
 
@@ -108,16 +138,6 @@ export const serviceCategories: ServiceCategory[] = [
 
 export const exclusiveEvents: ExclusiveEvent[] = [
   {
-    id: "e1",
-    type: "event",
-    title: "JA Private Investment Briefing",
-    date: "3 Jul 2026",
-    location: "Mayfair, London",
-    description:
-      "Exclusive Q3 outlook for JA clients. Featuring commentary on African private equity, UK real estate, and global fixed income.",
-    cta: "RSVP",
-  },
-  {
     id: "e2",
     type: "opportunity",
     title: "Pre-IPO: Accra Digital Exchange",
@@ -126,6 +146,17 @@ export const exclusiveEvents: ExclusiveEvent[] = [
     description:
       "Early-access opportunity in Ghana's first regulated crypto and digital securities exchange. Minimum $50,000.",
     cta: "Register interest",
+    featured: true,
+  },
+  {
+    id: "e1",
+    type: "event",
+    title: "JA Private Investment Briefing",
+    date: "3 Jul 2026",
+    location: "Mayfair, London",
+    description:
+      "Exclusive Q3 outlook for JA clients. Featuring commentary on African private equity, UK real estate, and global fixed income.",
+    cta: "RSVP",
   },
   {
     id: "e3",
@@ -149,3 +180,41 @@ export const partnerNetworkItems = [
   "CAL Bank Ghana",
   "Malta Residency Program",
 ];
+
+export const partnerCategories: PartnerCategory[] = [
+  {
+    label: "Private banking",
+    partners: ["Standard Chartered Private Banking", "Barclays Private", "CAL Bank Ghana"],
+  },
+  {
+    label: "Legal and tax",
+    partners: ["Freshfields Bruckhaus Deringer"],
+  },
+  {
+    label: "Real estate",
+    partners: ["Knight Frank", "JA Realty"],
+  },
+  {
+    label: "Residency and lifestyle",
+    partners: ["JA Elements", "Malta Residency Program"],
+  },
+];
+
+export function getConciergeOverview(): ConciergeOverview {
+  const active = activeRequests.filter((r) => r.status !== "completed");
+  const attention = activeRequests.filter((r) => r.requiresAttention);
+  const inProgress = activeRequests.filter((r) => r.status === "in-progress");
+
+  const nextActive = [...active]
+    .filter((r) => r.expectedCompletion)
+    .sort((a, b) => a.expectedCompletion.localeCompare(b.expectedCompletion))[0];
+
+  return {
+    activeCount: active.length,
+    attentionCount: attention.length,
+    inProgressCount: inProgress.length,
+    nextMilestone: nextActive?.expectedCompletion ?? "None scheduled",
+    primaryOfficer: "Kwame Asare",
+  };
+}
+

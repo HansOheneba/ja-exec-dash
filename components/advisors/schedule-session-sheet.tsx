@@ -17,6 +17,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
+import { sessionTypes } from "@/lib/data/sessions";
 import { clients } from "@/lib/advisor-clients-data";
 
 type ScheduleSessionSheetProps = {
@@ -36,9 +37,9 @@ function ScheduleSessionSheet({ preselectedClientId }: ScheduleSessionSheetProps
       />
       <SheetContent side="right" className="flex w-full flex-col sm:max-w-md">
         <SheetHeader>
-          <SheetTitle>Schedule a session</SheetTitle>
+          <SheetTitle>Schedule advisory session</SheetTitle>
           <SheetDescription>
-            Book a session with a client. They will receive a calendar invite once confirmed.
+            Fields map to what the client sees: purpose, expected outcome, and preparation notes.
           </SheetDescription>
         </SheetHeader>
 
@@ -60,13 +61,20 @@ function ScheduleSessionSheet({ preselectedClientId }: ScheduleSessionSheetProps
           <div className="flex flex-col gap-1.5">
             <Label htmlFor="session-type">Session type</Label>
             <Select id="session-type">
-              <option>Annual Review</option>
-              <option>Quarterly Check-in</option>
-              <option>Portfolio Review</option>
-              <option>Estate Planning</option>
-              <option>Planning</option>
-              <option>Onboarding</option>
-              <option>Ad-hoc</option>
+              {sessionTypes.map((type) => (
+                <option key={type}>{type}</option>
+              ))}
+            </Select>
+          </div>
+
+          <div className="flex flex-col gap-1.5">
+            <Label htmlFor="session-domain">Advisory domain</Label>
+            <Select id="session-domain">
+              <option value="portfolio">Portfolio</option>
+              <option value="legacy">Legacy</option>
+              <option value="tax">Tax</option>
+              <option value="concierge">Concierge</option>
+              <option value="general">Wealth plan</option>
             </Select>
           </div>
 
@@ -82,22 +90,44 @@ function ScheduleSessionSheet({ preselectedClientId }: ScheduleSessionSheetProps
           </div>
 
           <div className="flex flex-col gap-1.5">
-            <Label htmlFor="session-duration">Duration</Label>
-            <Select id="session-duration">
-              <option>30 min</option>
-              <option>45 min</option>
-              <option>60 min</option>
-              <option>90 min</option>
+            <Label htmlFor="session-format">Format</Label>
+            <Select id="session-format">
+              <option>Virtual (Zoom)</option>
+              <option>Mayfair Office, London</option>
+              <option>Client location</option>
             </Select>
           </div>
 
           <div className="flex flex-col gap-1.5">
-            <Label htmlFor="session-agenda">Agenda (optional)</Label>
+            <Label htmlFor="session-purpose">Purpose (client-facing)</Label>
             <Textarea
-              id="session-agenda"
-              rows={4}
-              placeholder="Outline what will be covered in this session..."
+              id="session-purpose"
+              rows={3}
+              placeholder="Why this session exists and what domain it covers..."
             />
+          </div>
+
+          <div className="flex flex-col gap-1.5">
+            <Label htmlFor="session-outcome">Expected outcome</Label>
+            <Textarea
+              id="session-outcome"
+              rows={2}
+              placeholder="What decision or agreement should result from this session?"
+            />
+          </div>
+
+          <div className="flex flex-col gap-1.5">
+            <Label htmlFor="session-prep">Preparation notes (client-facing)</Label>
+            <Textarea
+              id="session-prep"
+              rows={3}
+              placeholder="What the client should review or prepare beforehand..."
+            />
+          </div>
+
+          <div className="flex items-center gap-2">
+            <input id="requires-prep" type="checkbox" className="size-4 rounded border-border" defaultChecked />
+            <Label htmlFor="requires-prep" className="font-normal">Flag as requires preparation</Label>
           </div>
         </div>
 

@@ -5,6 +5,7 @@ import { DashboardBreadcrumbs } from "@/components/layout/dashboard-breadcrumbs"
 import { DashboardTopBarActions } from "@/components/layout/dashboard-top-bar-actions";
 import { PortalSwitcher } from "@/components/layout/portal-switcher";
 import { SidebarToggle } from "@/components/layout/sidebar-toggle";
+import { appConfig } from "@/lib/app-config";
 import type { NavItem } from "@/lib/navigation";
 import { cn } from "@/lib/utils";
 
@@ -45,7 +46,7 @@ function DashboardTopBar({
 
       <div className="ml-auto flex shrink-0 items-center gap-3">
         {showCurrencyToggle && <CurrencyToggle />}
-        <PortalSwitcher />
+        {appConfig.portal === "dual" ? <PortalSwitcher /> : null}
         <DashboardTopBarActions
           accountLabel={accountLabel}
           userName={userName}

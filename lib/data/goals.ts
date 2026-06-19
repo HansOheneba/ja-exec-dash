@@ -1,4 +1,6 @@
-// Goals data: all monetary values in USD. Replace with API calls
+// Goals data: all monetary values in USD. Domain API (mock). Prefer @/lib/api/domain
+
+import { appConfig } from "@/lib/app-config";
 
 export type GoalStatus = "on-track" | "at-risk" | "ahead" | "in-progress";
 
@@ -70,7 +72,7 @@ export const goals: Goal[] = [
     advisorNote:
       "Application preparation is well underway. Portugal's NHR route requires the investment threshold to be met by Q4 2027. You are on track. JA's Citizenship team can guide the legal process.",
     jaService: "CBI consultation",
-    jaServiceHref: "/clients/dashboard/concierge",
+    jaServiceHref: appConfig.routes.client.concierge,
   },
   {
     id: "legacy",

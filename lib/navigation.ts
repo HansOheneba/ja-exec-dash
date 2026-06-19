@@ -10,7 +10,8 @@ import {
 type NavItem = {
   label: string;
   href: string;
-  icon: LucideIcon;
+  icon?: LucideIcon;
+  iconSrc?: string;
   badge?: number;
 };
 

@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 import { Settings } from "lucide-react";
 
 import { DashboardTopBar } from "@/components/layout/dashboard-top-bar";
+import { NavIcon } from "@/components/layout/nav-icon";
 import { mainNavItems, type NavItem } from "@/lib/navigation";
 import {
   Sidebar,
@@ -88,7 +89,7 @@ function DashboardShell({
                         )}
                         render={<Link href={item.href} />}
                       >
-                        <item.icon className="size-5 shrink-0" />
+                        <NavIcon icon={item.icon} iconSrc={item.iconSrc} label={item.label} />
                         <span className="flex-1">{item.label}</span>
                         {item.badge ? (
                           <span className="badge ml-auto flex h-5 min-w-5 items-center justify-center rounded-full bg-brand-accent px-1 text-[10px] font-bold leading-none text-white group-data-[collapsible=icon]:hidden">
